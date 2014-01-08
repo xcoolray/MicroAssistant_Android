@@ -1,0 +1,105 @@
+﻿<!doctype html>
+<html ng-app="microassistant">
+<head>
+    <meta charset="utf-8">
+    <title>微企助手</title>
+    <meta name="description" content="">
+    <meta name="author" content="cray (285025600@qq.com)">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no">
+    <meta http-equiv="cleartype" content="on">
+
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="components/lungo/lungo.css">
+    <link rel="stylesheet" href="components/lungo/lungo.theme.css">
+    <link rel="stylesheet" href="components/lungo/lungo.icon.css">
+    <!-- App Stylesheet -->
+    <link href="css/app.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="components/PerspectivePageViewNavigation/css/component.css" />
+    <link href="components/PerspectivePageViewNavigation/css/lungo.css" rel="stylesheet" />
+    <link href="components/PerspectivePageViewNavigation/css/lungo.theme.css" rel="stylesheet" />
+		<!-- csstransforms3d-shiv-cssclasses-prefixed-teststyles-testprop-testallprops-prefixes-domprefixes-load --> 
+		<script src="components/PerspectivePageViewNavigation/js/modernizr.custom.25376.js"></script>
+</head>
+
+<body ng-controller="MainCtrl" class="perspective effect-airbnb">
+    <div id="contentWraper" class="container"></div>
+    <section id="main" data-transition="slide">
+        <header>
+            <nav>
+                <a href="#" ng-click="showMenu($event)" data-icon="menu"></a>
+            </nav>
+            <!--<img src="img/logo2.png" class="title centered">-->
+            <nav class="on-right">
+                <a href="#"  ><abbr class="text tiny "></abbr></a>
+            </nav>
+        </header>
+
+        <article id="main-article" class="active splash">
+            <img src="img/logo1.png" class="logo"/>
+            <p>
+                欢迎使用微企助手！
+            </p>
+            <span class="copyright text thin">Copyright (C) 2013-2014 - <span class="text bold">微企助手</span></span>
+        </article>
+    </section>
+    		<nav class="outer-nav left vertical">
+				<a href="#" class="icon-home" ng-click="menuToSection('main')">主页</a>
+				<a href="#" class="icon-product" ng-click="menuToSection('product-list','partials/products/list.html')">产品管理</a>
+				<a href="#" class="icon-sales" ng-click="menuToSection('sales-list','partials/sales/list.html')">销售管理</a>
+				<a href="#" class="icon-fina" ng-click="menuToSection('finance-list','partials/finance/list.html')">财务管理</a>
+				<a href="#" class="icon-custom" ng-click="menuToSection('client-list','partials/client/list.html')">客户管理</a>
+			</nav>
+    <!-- Lungo dependencies -->
+    <script src="components/jquery.js"></script>
+    <script src="components/quojs/quo.js"></script>
+    <script src="components/lungo/lungo.debug.js"></script>
+    <script src="components/lungo-fixed.js"></script>
+    <script src="components/angular/angular.js"></script>
+    <script src="components/angular/angular-touch.js"></script>
+    <script src="components/angular/angular-animate.js"></script>
+    <script src="components/lungo-angular.js"></script>
+    <!--<script src="components/lungo-angular-bridge.js"></script>-->
+    <!-- LungoJS - Sandbox App -->
+    <script src="scripts/core.js"></script>
+    <script src="scripts/server-models.js"></script>
+    <script src="scripts/models/usermodel.js"></script>
+    <script src="scripts/models/respicmodel.js"></script>
+    <script src="scripts/models/productmodel.js"></script>
+    <script src="scripts/account/controllers.js"></script>
+    <script src="scripts/product/controllers.js"></script>
+    <script src="scripts/sales/controllers.js"></script>
+    <script src="scripts/finance/controllers.js"></script>
+    <script src="scripts/client/controller.js"></script>
+    <script src="scripts/app.js"></script>
+	<script src="components/PerspectivePageViewNavigation/js/menu.js"></script>
+    <script>
+        var MicroAssistantApp = {};
+        Lungo.init({
+            name: 'microassistant',
+            version: '1.0',
+            resources: [
+                'partials/account/login.html'],
+            history: false
+        });
+        Lungo.Events.init({
+            'load section#product-list': function (event) {
+                MicroAssistantApp.pull = new Lungo.Element.Pull('section#product-list article', {
+                    onPull: "",
+                    onRelease: "",
+                    onRefresh: "",
+                    callback: function () {
+                        //alert("Pull & Refresh completed!");
+                        Lungo.dom('#product-list article').trigger('refresh');
+                        MicroAssistantApp.pull.hide();
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
+

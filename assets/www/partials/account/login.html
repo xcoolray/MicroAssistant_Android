@@ -1,0 +1,20 @@
+﻿<section id="account-login" data-transition="slide">
+    <article class="active splash"  ng-controller="UserLoginMainCtrl">
+        <img src="img/logo1.png" class="logo"/>
+        <div class="form">
+            <form name="UserLoginForm" id="form" ng-class="showerror?'showerror':''">
+            <fieldset class="radius-top" data-icon="user">
+                <input type="email" name="emial" ng-model="User.email" ng-required="true"  placeholder="请输入邮箱" id="txt-signup-name" value="">
+            </fieldset>
+            <fieldset class="radius-bottom shadow" data-icon="lock">
+                <input type="password" name="pwd" ng-model="User.pwd" maxlength="18" ng-required="true"  placeholder="请输入密码" id="txt-signup-password" value="">
+            </fieldset>
+            <br/>
+            <button class="anchor" data-icon="lock" data-icon="user" href="javascript:void(0)" ng-click="UserLogin()" data-label="登陆"></button>
+            <button data-view-section="account-register" data-async="partials/account/register.html" class="secondary anchor" data-icon="home" data-label="员工注册"></button>
+            <button data-view-section="account-entregister" data-async="partials/account/ent-register.html" class="secondary anchor" data-icon="home" data-label="企业注册"></button>
+            </form>
+        </div>
+        <span class="copyright text thin">Copyright (C) 2013-2014 - <span class="text bold">微企助手</span></span>
+    </article>
+</section>

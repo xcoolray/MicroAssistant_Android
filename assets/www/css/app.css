@@ -1,0 +1,119 @@
+﻿#main-menu {
+    width:80px;
+    overflow:hidden;
+}
+#main-menu header {width:80px;height:80px;}
+#main-menu header .headImg {
+    width:100%;
+}
+#main-menu header .headImg img {
+    width:60px;height:60px;margin:10px;
+}
+#product-list .groupbar-container {
+    width:100%;
+    height:36px;
+    overflow-x:scroll;
+    overflow-y:hidden;
+}
+#product-list .groupbar-container nav {
+    width:100%;
+    background:#2f2f2f;
+}
+#product-list .groupbar-container nav a {
+
+}
+#product-list > [data-control="pull"] {
+    top:82px;
+}
+#sales-list .groupbar-container {
+    width:100%;
+    height:36px;
+    overflow:hidden;
+}
+#sales-list .groupbar-container nav {
+    width:100%;
+    background:#2f2f2f;
+}
+#sales-list .groupbar-container nav a {
+
+}
+#sales-list > [data-control="pull"] {
+    top:82px;
+}
+
+#finance-list .groupbar-container {
+    width:100%;
+    height:36px;
+    overflow:hidden;
+}
+#finance-list .groupbar-container nav {
+    width:100%;
+    background:#2f2f2f;
+}
+#finance-list .groupbar-container nav a {
+
+}
+#finance-list > [data-control="pull"] {
+    top:82px;
+}
+
+#client-list .groupbar-container {
+    width:100%;
+    height:36px;
+    overflow:hidden;
+}
+#client-list .groupbar-container nav {
+    width:100%;
+    background:#2f2f2f;
+}
+#client-list .groupbar-container nav a {
+
+}
+#client-list > [data-control="pull"] {
+    top:82px;
+}
+.animate-repeat {
+    opacity:1;
+    position:relative;
+    top:0;
+}
+ 
+.animate-repeat.ng-move,
+.animate-repeat.ng-enter,
+.animate-repeat.ng-leave {
+  -webkit-transition:all linear 0.3s;
+  transition:all linear 0.3s;
+}
+ 
+.animate-repeat.ng-leave.ng-leave-active,
+.animate-repeat.ng-move,
+.animate-repeat.ng-enter {
+  opacity:0;
+  top:-50px;
+}
+ 
+.animate-repeat.ng-leave,
+.animate-repeat.ng-move.ng-move-active,
+.animate-repeat.ng-enter.ng-enter-active {
+  opacity:1;
+  top:0;
+}
+
+.dynamic-button
+{ 
+  -webkit-transition:all linear 0.3s;
+  transition:all linear 0.3s;
+  position:relative;
+  right:0;
+  opacity:1;
+} 
+
+.dynamic-button.ng-hide-add,
+.dynamic-button.ng-hide-remove {
+    display:block!important;
+}
+ 
+.dynamic-button.ng-hide {
+   right:-50px;
+   opacity:0;
+}
