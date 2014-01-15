@@ -34,7 +34,7 @@ function ProductMainCtrl($scope, $routeParams, $http, $location, productmodel, $
             else {
                 $scope.hasMoreProducts = false;
             }
-            if (pageIndex == 0) {
+            if (pageIndex <= 0) {
                 $scope.products = data.Data.Items || [];
             }
             else {
