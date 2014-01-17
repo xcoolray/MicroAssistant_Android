@@ -1,4 +1,4 @@
-function FinanceMainCtrl($scope, $routeParams, $http, $location) {
+function FinanceMainCtrl($scope, $routeParams, $http, $location, financemodel) {
     var $parent = $scope.$parent;
     $scope.steps = $routeParams.steps;
     if (!$scope.steps) {
@@ -7,7 +7,31 @@ function FinanceMainCtrl($scope, $routeParams, $http, $location) {
     } else {
         $parent.payableActPageIndex = 1;
     }
+    $scope.hasMoreRecords = false;
+
+    $scope.refreshList = function () {
+        $scope.loadCurrentStepList(-1);
+    }
+
+    $scope.showMoreRecords = function () {
+        $scope.loadCurrentStepList(1);
+    }
     $scope.loadCurrentStepList = function (pageIndex) {
+        financemodel.getlist($scope.steps, pageIndex, 2, function (data) {
+            if (data.Error) {
+                alert(data.ErrorMessage);
+            }
+            $scope.hasMoreRecords = data.hasMore;
+            switch ($scope.steps) {
+                case 'receivable':
+                    $scope.receivables = data.Items || [];
+                    break;
+                case 'payable':
+                    $scope.payables = data.Items || [];
+                    break;
+            }
+        });
+        /*
         if (pageIndex == 0) pageIndex = 1;
         switch ($scope.steps) {
             case 'receivable'://应收款步骤
@@ -37,7 +61,7 @@ function FinanceMainCtrl($scope, $routeParams, $http, $location) {
                     $scope.payables = [];
                 })//.lock({ selector: '#payablesList' });
                 break;
-        }
+        }*/
     };
 
     $scope.ShowReceivableDetail = function (dataItem) {

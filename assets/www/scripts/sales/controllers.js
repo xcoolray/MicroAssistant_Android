@@ -1,5 +1,5 @@
 
-function SalesMainCtrl($scope, $routeParams, $http, $location){
+function SalesMainCtrl($scope, $routeParams, $http, $location, salesmodel) {
 	$scope.steps = $routeParams.steps;
 	if(!$scope.steps)
 	    $scope.steps = "chance";
@@ -8,9 +8,39 @@ function SalesMainCtrl($scope, $routeParams, $http, $location){
 	$scope.SalesVisitCount = 0;
 	$scope.SalesContractCount = 0;
 	$scope.SalesAfterCount = 0;
-	console.log( $routeParams)
+	console.log($routeParams)
+	$scope.hasMoreRecords = false;
+
+	$scope.refreshList = function () {
+	    $scope.loadCurrentStepList(-1);
+	}
+
+	$scope.showMoreRecords = function () {
+	    $scope.loadCurrentStepList(1);
+	}
 	//显示列表内容
-	$scope.loadCurrentStepList = function(){
+	$scope.loadCurrentStepList = function (pageindex) {
+	    salesmodel.getlist($scope.steps, pageindex, 2, function (data) {
+	        if (data.Error) {
+	            alert(data.ErrorMessage);
+	        }
+	        $scope.hasMoreRecords = data.hasMore;
+	        switch ($scope.steps) {
+	            case 'chance':
+	                $scope.chances = data.Items || [];
+	                break;
+	            case 'visit':
+	                $scope.cvisits = data.Items || [];
+	                break;
+	            case 'contract':
+	                $scope.contracts = data.Items || [];
+	                break;
+	            case 'after':
+	                $scope.afters = data.Items || [];
+	                break;
+	        }
+	    });
+        /*
 		switch($scope.steps)
 		{
 		    case 'chance':
@@ -66,7 +96,7 @@ function SalesMainCtrl($scope, $routeParams, $http, $location){
 				  $scope.afters = [];
 				})//.lock({ selector: '#salesAfterListBox' });
 				break;
-		}
+		}*/
 	};
 	$scope.addCurrentStepItem = function (step) {
 	    var steps = step || $scope.steps;
@@ -102,11 +132,11 @@ function SalesMainCtrl($scope, $routeParams, $http, $location){
 	    $scope.$broadcast('EventAfterDetail', this);
 	};
 
-	$scope.loadCurrentStepList();
+	$scope.loadCurrentStepList(0);
 
 	$scope.changeStep = function (step) {
 	    $scope.steps = step;
-	    $scope.loadCurrentStepList();
+	    $scope.loadCurrentStepList(0);
 	}
 
     $http.post($sitecore.urls["salesGetMarketingCount"], {}).success(function (data) {

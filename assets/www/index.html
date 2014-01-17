@@ -69,6 +69,8 @@
     <script src="scripts/models/usermodel.js"></script>
     <script src="scripts/models/respicmodel.js"></script>
     <script src="scripts/models/productmodel.js"></script>
+    <script src="scripts/models/salesmodel.js"></script>
+    <script src="scripts/models/financemodel.js"></script>
     <script src="scripts/account/controllers.js"></script>
     <script src="scripts/product/controllers.js"></script>
     <script src="scripts/sales/controllers.js"></script>
@@ -94,6 +96,30 @@
                     callback: function () {
                         //alert("Pull & Refresh completed!");
                         Lungo.dom('#product-list article').trigger('refresh');
+                        MicroAssistantApp.pull.hide();
+                    }
+                });
+            },
+            'load section#sales-list': function (event) {
+                MicroAssistantApp.pull = new Lungo.Element.Pull('section#sales-list article', {
+                    onPull: "",
+                    onRelease: "",
+                    onRefresh: "",
+                    callback: function () {
+                        //alert("Pull & Refresh completed!");
+                        Lungo.dom('#sales-list article').trigger('refresh');
+                        MicroAssistantApp.pull.hide();
+                    }
+                });
+            },
+            'load section#finance-list': function (event) {
+                MicroAssistantApp.pull = new Lungo.Element.Pull('section#finance-list article', {
+                    onPull: "",
+                    onRelease: "",
+                    onRefresh: "",
+                    callback: function () {
+                        //alert("Pull & Refresh completed!");
+                        Lungo.dom('#finance-list article').trigger('refresh');
                         MicroAssistantApp.pull.hide();
                     }
                 });

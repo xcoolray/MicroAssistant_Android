@@ -1,7 +1,7 @@
 ﻿var $sitecore = $sitecore || {};
 
 $sitecore.urls = $sitecore.urls || {};
-$sitecore.urls.base = "http://p.xzhushou.com";
+$sitecore.urls.base = "http://115.28.168.160";
 $sitecore.urls.add = function(name,url){
 	$sitecore.urls[name] = $sitecore.urls.base + url +"?timestamp="+ new Date().getTime();
 };

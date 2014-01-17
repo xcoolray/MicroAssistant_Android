@@ -14,7 +14,7 @@
 
     <article id="product-list-article" class="active list indented" ng-refresh="refreshList()">
     <ul>
-        <li ng-repeat="product in products" ng-swipe-left="showAction(product.PId)">
+        <li ng-repeat="product in products track by product.PId" ng-swipe-left="showAction(product.PId)">
             <a href="#">
                 <a href="#" class="dynamic-button button small red on-right" ng-show="showActionsProduct == product.PId"><abbr>删除</abbr></a>
                 <a href="#" class="dynamic-button button small red on-right" ng-show="showActionsProduct == product.PId" style="margin-right:5px;"><abbr>编辑</abbr></a>

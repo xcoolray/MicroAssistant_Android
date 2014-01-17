@@ -1,4 +1,4 @@
-﻿angular.module('microassistant', ['ngTouch', 'ngAnimate', 'models.user', 'models.respic', 'models.product']).
+﻿angular.module('microassistant', ['ngTouch', 'ngAnimate', 'models.user', 'models.respic', 'models.product', 'models.sales', 'models.finance']).
  config(['$provide', '$compileProvider', '$httpProvider', function ($provide, $compileProvider, $httpProvider) {
 
      $httpProvider.interceptors.push(function () {
@@ -34,7 +34,7 @@
      makeRefreshDirective('ngRefresh', 'refresh');
  }])
     .constant('$sitecore', $sitecore)
-    .constant('$pagination', { pageindex: 0, pagesize: 20 })
+    .constant('$pagination', { pageindex: 0, pagesize: 10 })
     .value('$anchorScroll', angular.noop)
     .service('$dataCache', ['$cacheFactory', function ($cacheFactory) {
         var userCacheKey = 'userCacheKey', catalogsCacheKey = 'catalogsCacheKey', productCacheKey = 'productCacheKey';
@@ -54,6 +54,9 @@
         };
         this.getProductCache = function (catid) {
             return getCache(productCacheKey + catid);
+        };
+        this.getListCache = function (catalogKey) {
+            return getCache(catalogKey);
         };
     }])
     .service('$routeParams', function () {

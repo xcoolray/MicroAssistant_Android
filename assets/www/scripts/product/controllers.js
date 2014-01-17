@@ -17,17 +17,20 @@ function ProductMainCtrl($scope, $routeParams, $http, $location, productmodel, $
     }
 
     $scope.showMoreProducts = function () {
-        $scope.getCatProducts($scope.currentCatalogId, ++$scope.currentPageIndex);
+        $scope.getCatProducts($scope.currentCatalogId, 1);
     }
 
     //获取产品列表
     $scope.getCatProducts = function (catalogId, pageIndex) {
         console.log(catalogId + '_' + pageIndex);
         $scope.currentCatalogId = catalogId;
-        productmodel.getproducts(catalogId, pageIndex, productPageSize, function (data) {
+        productmodel.getproducts(catalogId, pageIndex, 2, function (data) {
             if (data.Error) {
                 alert(data.ErrorMessage);
             }
+            $scope.hasMoreProducts = data.hasMore;
+            $scope.products = data.Items || [];
+            /*
             if (data.Data && data.Data.Items.length == productPageSize) {
                 $scope.hasMoreProducts = true;
             }
@@ -46,6 +49,7 @@ function ProductMainCtrl($scope, $routeParams, $http, $location, productmodel, $
                 }
             }
             $scope.currentPageIndex = pageIndex >= 0 ? pageIndex : 0;
+            */
         });
     };
 
@@ -58,7 +62,7 @@ function ProductMainCtrl($scope, $routeParams, $http, $location, productmodel, $
     //获取产品分类列表
     $scope.showCatalogs = function () {
         productmodel.getcatalogs(0, 50, function (data) {
-            $scope.catalogs = data.Data || [];
+            $scope.catalogs = data.Items || [];
             if ($scope.catalogs && $scope.catalogs.length) {
                 $scope.activeCat($scope.catalogs[0].PTypeId);
             }
@@ -86,11 +90,11 @@ function ProductMainCtrl($scope, $routeParams, $http, $location, productmodel, $
                     alert(data.ErrorMessage);
                 }
                 else {
-                    $parent.catalogs = $parent.catalogs || [];
+                    $scope.catalogs = $scope.catalogs || [];
                     var catalog = angular.copy($scope.AddedCatalog);
                     catalog.PTypeId = data.Id;
                     catalog.PicId = $scope.AddedCatalog.PicId;
-                    $parent.catalogs.push(catalog);
+                    $scope.catalogs.push(catalog);
                     $location.path("/product/" + data.Id + "/1");
                     //$scope.catalogs = $scope.catalogs || [];
                     //var catalog = angular.copy($scope.AddedCatalog)

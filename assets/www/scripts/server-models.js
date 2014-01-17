@@ -1,4 +1,4 @@
-angular.module('$serverModels', []).factory('$serverModels', ['$sitecore', '$http', '$q', function ($sitecore, $http, $q) {
+angular.module('$serverModels', []).factory('$serverModels', ['$pagination', '$dataCache', '$sitecore', '$http', '$q', function ($pagination, $dataCache, $sitecore, $http, $q) {
 
     function ServerModelsFactory() {
 
@@ -55,6 +55,59 @@ angular.module('$serverModels', []).factory('$serverModels', ['$sitecore', '$htt
         Resource.query = function (config) {
             var httpPromise = $http.post(config.url, config.data);
             return thenFactoryMethod(httpPromise, config.scb, config.ecb, config.pfn, false);
+        };
+
+        Resource.querylist = function (config) {
+            var cache = $dataCache.getListCache(config.cacheKey);
+            var cacheData = cache.get('data');
+
+            config.data = config.data || {};
+            config.data.pageSize = config.pagesize || $pagination.pagesize;
+
+            if (cacheData) {
+                if (config.getMore)
+                {
+                    config.data.pageIndex = ++cacheData.pageindex;
+                }
+                else if (config.refresh) {
+                    cacheData.items = [];
+                    cacheData.pageindex = $pagination.pageindex;
+
+                    config.data.pageIndex = $pagination.pageindex;
+                }
+                else {
+                    typeof config.scb == 'function' && config.scb.apply(this, [{ Items: cacheData.items }]);
+                    return;
+                }
+            }
+            else {
+                cacheData = { items: [], pageindex: $pagination.pageindex };
+                cache.put('data', cacheData);
+                config.data.pageIndex = $pagination.pageindex;
+            }
+            var scb = config.scb;
+            config.scb = function (data) {
+                if (angular.isArray(data.Data.Items)) {
+                    if (cacheData.items.length) {
+                        var last = cacheData.items[cacheData.items.length - 1];
+                        var first = data.Data.Items[0];
+                        if (angular.equals(last, first))
+                        {
+                            cacheData.items.pop();
+                        }
+                    }
+                    angular.forEach(data.Data.Items, function (value) {
+                        cacheData.items.push(value);
+                    });
+                    if (data.Data.Items.length == config.data.pageSize) {
+                        data.hasMore = true;
+                    }
+                }
+                data.Data = null;
+                data.Items = cacheData.items;
+                typeof scb == 'function' && scb.apply(this, arguments);
+            }
+            return Resource.query(config);
         };
 
         return Resource;
