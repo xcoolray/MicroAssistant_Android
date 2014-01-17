@@ -6,9 +6,7 @@ angular.module('models.product').factory('productmodel', ['$serverModels', '$pag
 
     var removeCatalogCache = function () {
         catalogCache.removeAll();
-    }
-
-
+    };
     productmodel.getcatalogs = function (pageindex, pagesize, scb, ecb) {
         var refresh = pageindex < 0;
         pageindex = pageindex >= 0 ? pageindex : 0;
