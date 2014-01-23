@@ -70,7 +70,11 @@ function FinanceMainCtrl($scope, $routeParams, $http, $location, financemodel) {
     $scope.MakeSurePayable = function () {
         $scope.$broadcast('EventMakeSurePayable', this.payableitem);//È·ÈÏ¸¶¿î
     };
-    $scope.loadCurrentStepList(0);
+    
+
+    $scope.$on('onLoginSuccess', function (event) {
+        $scope.loadCurrentStepList(0);
+    });
 
     $scope.changeStep = function (step) {
         $scope.steps = step;

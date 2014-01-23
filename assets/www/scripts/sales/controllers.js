@@ -9,6 +9,7 @@ function SalesMainCtrl($scope, $routeParams, $http, $location, salesmodel) {
 	$scope.SalesContractCount = 0;
 	$scope.SalesAfterCount = 0;
 	console.log($routeParams)
+    /*
 	$scope.hasMoreRecords = false;
 
 	$scope.refreshList = function () {
@@ -96,8 +97,8 @@ function SalesMainCtrl($scope, $routeParams, $http, $location, salesmodel) {
 				  $scope.afters = [];
 				})//.lock({ selector: '#salesAfterListBox' });
 				break;
-		}*/
-	};
+		}
+	};*/
 	$scope.addCurrentStepItem = function (step) {
 	    var steps = step || $scope.steps;
 	    switch (steps)
@@ -132,13 +133,17 @@ function SalesMainCtrl($scope, $routeParams, $http, $location, salesmodel) {
 	    $scope.$broadcast('EventAfterDetail', this);
 	};
 
-	$scope.loadCurrentStepList(0);
+	$scope.$on('onLoginSuccess', function (event) {
+
+	});
+	
 
 	$scope.changeStep = function (step) {
 	    $scope.steps = step;
 	    $scope.loadCurrentStepList(0);
 	}
 
+    /*
     $http.post($sitecore.urls["salesGetMarketingCount"], {}).success(function (data) {
         console.log(data);
         $scope.SalesChanceCount = data.Data[0];
@@ -148,7 +153,7 @@ function SalesMainCtrl($scope, $routeParams, $http, $location, salesmodel) {
 	}).
     error(function (data, status, headers, config) {
         $scope.afters = [];
-    });
+    });*/
 	
 }
 
@@ -165,12 +170,14 @@ function SalesChanceMainCtrl($scope, $routeParams, $http, $location, salesmodel)
     }
     //显示列表内容
     $scope.loadCurrentStepList = function (pageindex) {
-        salesmodel.getlist($scope.steps, pageindex, 2, function (data) {
+        salesmodel.getlist($scope.steps, pageindex, 10, function (data) {
             if (data.Error) {
                 alert(data.ErrorMessage);
             }
             $scope.hasMoreRecords = data.hasMore;
+
             $scope.chances = data.Items || [];
+            console.log($scope.chances);
         });
     };
     $scope.loadCurrentStepList(0);

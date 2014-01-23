@@ -8,25 +8,24 @@
     lng.Resource.load = function () {
         load.apply(this, arguments);
         lng.ready(function () {
-            lng.dom('section,aside').each(function () {
+            lng.dom('section').each(function () {
                 var el = lng.dom(this);
                 if (el.attr(NG_FLAG)) {
                     el.find("article").each(function () {
                         var article = lng.dom(this);
 
-                        if (article.attr(NG_FLAG)) {
+                        if (!article.attr(NG_FLAG)) {
+                            console.log('compile article' + article.attr('id'));
                             angular.element(document).injector().invoke(function ($compile) {
                                 var scope = angular.element(article[0]).scope();
                                 $compile(article[0])(scope);
                             });
                         }
-                        else {
-                            article.attr(NG_FLAG, true);
-
-                        }
+                        article.attr(NG_FLAG, true);
                     });
                 }
                 else {
+                    console.log('compile section' + el.attr('id'));
                     angular.element(document).injector().invoke(function ($compile) {
                         var scope = angular.element(el[0]).scope();
                         $compile(el[0])(scope);

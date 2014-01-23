@@ -64,7 +64,12 @@
                 break;
         }*/
     };
-    $scope.loadCurrentSortList(0);
+
+    $scope.$on('onLoginSuccess', function (event) {
+        $scope.loadCurrentSortList(0);
+    });
+
+    
     $scope.changeSorts = function (sorts) {
         $scope.sorts = sorts;
         $scope.loadCurrentSortList(0);

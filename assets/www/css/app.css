@@ -117,3 +117,15 @@
    right:-50px;
    opacity:0;
 }
+
+.contentcenter {
+ display: -webkit-box;
+ -webkit-box-orient: horizontal;
+ -webkit-box-pack: center;
+ -webkit-box-align: center;
+}
+
+body > section > article,
+body > section > [data-control="pull"] {
+  background-color: #1ABC9C;
+}
