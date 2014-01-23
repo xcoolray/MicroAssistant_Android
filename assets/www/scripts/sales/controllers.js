@@ -152,6 +152,30 @@ function SalesMainCtrl($scope, $routeParams, $http, $location, salesmodel) {
 	
 }
 
+function SalesChanceMainCtrl($scope, $routeParams, $http, $location, salesmodel) {
+    $scope.steps = "chance";
+    $scope.hasMoreRecords = false;
+
+    $scope.refreshList = function () {
+        $scope.loadCurrentStepList(-1);
+    }
+
+    $scope.showMoreRecords = function () {
+        $scope.loadCurrentStepList(1);
+    }
+    //显示列表内容
+    $scope.loadCurrentStepList = function (pageindex) {
+        salesmodel.getlist($scope.steps, pageindex, 2, function (data) {
+            if (data.Error) {
+                alert(data.ErrorMessage);
+            }
+            $scope.hasMoreRecords = data.hasMore;
+            $scope.chances = data.Items || [];
+        });
+    };
+    $scope.loadCurrentStepList(0);
+}
+
 function SalesChanceDetailCtrl($scope, $routeParams, $http, $location, $filter) {
     var fromscope,chance,selectdate;
     $("#chanceDetailBox").hide();

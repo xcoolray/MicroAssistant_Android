@@ -29,7 +29,9 @@ function ProductMainCtrl($scope, $routeParams, $http, $location, productmodel, $
                 alert(data.ErrorMessage);
             }
             $scope.hasMoreProducts = data.hasMore;
+
             $scope.products = data.Items || [];
+
             /*
             if (data.Data && data.Data.Items.length == productPageSize) {
                 $scope.hasMoreProducts = true;

@@ -1,4 +1,4 @@
-﻿angular.module('microassistant', ['ngTouch', 'ngAnimate', 'models.user', 'models.respic', 'models.product', 'models.sales', 'models.finance']).
+﻿angular.module('microassistant', ['ngTouch', 'ngAnimate', 'models.user', 'models.respic', 'models.product', 'models.sales', 'models.finance', 'models.client']).
  config(['$provide', '$compileProvider', '$httpProvider', function ($provide, $compileProvider, $httpProvider) {
 
      $httpProvider.interceptors.push(function () {
@@ -111,7 +111,7 @@ function MainCtrl($scope, $rootScope, $http, $filter, usermodel, respicmodel) {
                 target.trigger('load');
             }
         }
-        Lungo.dom("#contentWraper").append(Lungo.dom("#" + sectionId));
+        //Lungo.dom("#contentWraper").append(Lungo.dom("#" + sectionId));
         //angular.section(sectionId);
         if (sectionId != Lungo.Element.Cache.section.attr('id'))
         {

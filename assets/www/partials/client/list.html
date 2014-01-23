@@ -16,10 +16,26 @@
     </header>
 
 <article id="client-list-article" class="active list indented" ng-refresh="refreshList()">
-        <ul ng-show="steps=='after'">
-            <li></li>
+        <ul ng-show="sorts=='enterprise'">
+            <li ng-repeat="enterpriseclientItem in enterpriseclients">
+                <a href="#">
+                    <strong>{{enterpriseclientItem.EntName}}</strong>
+                    <small>所属行业: {{enterpriseclientItem.Industy}} ,联系人: {{enterpriseclientItem.ContactUsername}} ,联系方式: {{enterpriseclientItem.ContactMobile||enterpriseclientItem.ContactPhone||enterpriseclientItem.ContactEmail}}</small>
+                </a>
+            </li>
+
         </ul>
-    <a href="#" ng-show="hasMoreProducts" class="button anchor margin bottom" ng-click="showMoreProducts()">更多</a>
+        <ul ng-show="sorts=='personal'">
+
+            <li ng-repeat="personclientItem in personalclients">
+                <a href="#">
+                    <strong>{{personclientItem.Name}}</strong>
+                    <small>年龄: {{parseAgeFromBirthday(personclientItem.Birthday)}},性别: {{personclientItem.Sex==1?'男':'女'}} ,联系方式: {{personclientItem.Mobile||personclientItem.Phone||personclientItem.Email}}</small>
+                </a>
+            </li>
+
+        </ul>
+    <a href="#" ng-show="hasMoreRecords" class="button anchor margin bottom" ng-click="showMoreRecords()">更多</a>
 </article>
 
 </section>

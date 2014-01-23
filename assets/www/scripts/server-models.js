@@ -76,12 +76,12 @@ angular.module('$serverModels', []).factory('$serverModels', ['$pagination', '$d
                     config.data.pageIndex = $pagination.pageindex;
                 }
                 else {
-                    typeof config.scb == 'function' && config.scb.apply(this, [{ Items: cacheData.items }]);
+                    typeof config.scb == 'function' && config.scb.apply(this, [{ Items: cacheData.items, hasMore: cacheData.hasMore }]);
                     return;
                 }
             }
             else {
-                cacheData = { items: [], pageindex: $pagination.pageindex };
+                cacheData = { items: [], pageindex: $pagination.pageindex, hasMore: false };
                 cache.put('data', cacheData);
                 config.data.pageIndex = $pagination.pageindex;
             }
@@ -97,9 +97,11 @@ angular.module('$serverModels', []).factory('$serverModels', ['$pagination', '$d
                         }
                     }
                     angular.forEach(data.Data.Items, function (value) {
+                        value.uniqueId = 'uid_' + (Math.random() + '').replace('.', '');
                         cacheData.items.push(value);
                     });
                     if (data.Data.Items.length == config.data.pageSize) {
+                        cacheData.hasMore = true;
                         data.hasMore = true;
                     }
                 }

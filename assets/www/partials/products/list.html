@@ -13,16 +13,17 @@
     </header>
 
     <article id="product-list-article" class="active list indented" ng-refresh="refreshList()">
-    <ul>
-        <li ng-repeat="product in products track by product.PId" ng-swipe-left="showAction(product.PId)">
-            <a href="#">
-                <a href="#" class="dynamic-button button small red on-right" ng-show="showActionsProduct == product.PId"><abbr>删除</abbr></a>
-                <a href="#" class="dynamic-button button small red on-right" ng-show="showActionsProduct == product.PId" style="margin-right:5px;"><abbr>编辑</abbr></a>
-                <strong>{{product.PName}}</strong>
-                <small>库存: {{product.StockCount}} ,售价: {{product.MarketPrice| currency:''}}</small>
-            </a>
-        </li>
-    </ul>
+        <!-- ng-swipe-left="showAction(product.PId)"-->
+        <ul>
+            <li ng-repeat="product in products">
+                <a href="#">
+                    <a href="#" class="dynamic-button button small red on-right" ng-show="showActionsProduct == product.PId"><abbr>删除</abbr></a>
+                    <a href="#" class="dynamic-button button small red on-right" ng-show="showActionsProduct == product.PId" style="margin-right:5px;"><abbr>编辑</abbr></a>
+                    <strong>{{product.PName}}</strong>
+                    <small>库存: {{product.StockCount}} ,售价: {{product.MarketPrice| currency:''}}</small>
+                </a>
+            </li>
+        </ul>
         <a href="#" ng-show="hasMoreProducts" class="button anchor margin bottom" ng-click="showMoreProducts()">更多</a>
     </article>
 

@@ -1,9 +1,29 @@
-﻿<section id="sales-list" data-transition="slide" ng-controller="SalesMainCtrl" data-pull="arrow-down">
-    <header data-title="销售管理" class="extended" style="height:82px;">
+﻿<section id="sales-list" data-transition="slide" ng-controller="SalesMainCtrl">
+    <header data-title="销售管理" class="extended">
         <nav>
             <a href="#" ng-click="showMenu($event)" data-icon="menu"></a>
         </nav>
-        <div class="groupbar-container">
+    </header>
+    <article id="sales-list-article" class="active indented" style="display: -webkit-box;-webkit-box-orient:vertical;">
+        <div style="-webkit-box-flex:1;">
+            <a style="display: block;height:60px;width:60px;border-radius: 30px;background: #f08080;line-height: 60px;text-align: center;margin: 0 auto;color: #fff;"
+                 data-view-section="sales-chance-list" data-async="partials/sales/chancelist.html" >机会</a>
+        </div>
+        <div style="-webkit-box-flex:1;">
+            <a style="display: block;height:60px;width:60px;border-radius: 30px;background: #f08080;line-height: 60px;text-align: center;margin: 0 auto;color: #fff;"
+                 data-view-section="account-register" data-async="partials/account/register.html" >拜访</a>
+        </div>
+        <div style="-webkit-box-flex:1;">
+            <a style="display: block;height:60px;width:60px;border-radius: 30px;background: #f08080;line-height: 60px;text-align: center;margin: 0 auto;color: #fff;"
+                 data-view-section="account-register" data-async="partials/account/register.html" >合同</a>
+        </div>
+    </article>
+    <!--
+        <header data-title="销售管理" class="extended" style="height:82px;">
+            <nav>
+                <a href="#" ng-click="showMenu($event)" data-icon="menu"></a>
+            </nav>
+            <div class="groupbar-container">
                 <nav data-control="groupbar">
                     <a href="#"  ng-class="steps=='chance'?'active':''" ng-click="changeStep('chance')">
                         <abbr>机会</abbr>
@@ -22,42 +42,42 @@
                         <span class="tag count">{{SalesAfterCount}}</span>
                     </a>
                 </nav>
-        </div>
-    </header>
+            </div>
+        </header>
 
-<article id="sales-list-article" class="active list indented" ng-refresh="refreshList()">
-        <ul ng-show="steps=='chance'">
-            <li ng-repeat="chance in chances">
-                <a href="#">
-                    <strong>{{chance.Remark| limitTo:15}}</strong>
-                    <small>联系人: {{chance.ContactName}} ,联系方式: {{chance.Phone||chance.Tel||chance.Email||chance.Qq}} ,创建时间: {{parseJsonDate(chance.AddTime,'yyyy/MM/dd')}}</small>
-                </a>
-            </li>
+        <article id="sales-list-article" class="active list indented" ng-refresh="refreshList()">
+            <ul ng-show="steps=='chance'">
+                <li ng-repeat="chance in chances">
+                    <a href="#">
+                        <strong>{{chance.Remark| limitTo:15}}</strong>
+                        <small>联系人: {{chance.ContactName}} ,联系方式: {{chance.Phone||chance.Tel||chance.Email||chance.Qq}} ,创建时间: {{parseJsonDate(chance.AddTime,'yyyy/MM/dd')}}</small>
+                    </a>
+                </li>
 
-        </ul>
-        <ul ng-show="steps=='visit'">
+            </ul>
+            <ul ng-show="steps=='visit'">
 
-            <li ng-repeat="cvisit in cvisits">
-                <a href="#">
-                    <strong>{{cvisit.Remark}}</strong>
-                    <small>共拜访: {{cvisit.VisitNum}}次 ,赢率: {{cvisit.Rate}}% ,最近一次拜访: {{parseJsonDate(cvisit.LastVisitTime,'yyyy/MM/dd')}}</small>
-                </a>
-            </li>
+                <li ng-repeat="cvisit in cvisits">
+                    <a href="#">
+                        <strong>{{cvisit.Remark}}</strong>
+                        <small>共拜访: {{cvisit.VisitNum}}次 ,赢率: {{cvisit.Rate}}% ,最近一次拜访: {{parseJsonDate(cvisit.LastVisitTime,'yyyy/MM/dd')}}</small>
+                    </a>
+                </li>
 
-        </ul>
-        <ul ng-show="steps=='contract'">
+            </ul>
+            <ul ng-show="steps=='contract'">
 
-            <li ng-repeat="contract in contracts">
-                <a href="#">
-                    <strong>{{contract.CName}}</strong>
-                    <small>合同编号: {{contract.ContractNo}} ,客户: {{contract.CustomerName}} ,合同金额: {{contract.Amount | currency:''}}</small>
-                </a>
-            </li>
-        </ul>
-        <ul ng-show="steps=='after'">
-            <li></li>
-        </ul>
-    <a href="#" ng-show="hasMoreRecords" class="button anchor margin bottom" ng-click="showMoreRecords()">更多</a>
-</article>
-
+                <li ng-repeat="contract in contracts">
+                    <a href="#">
+                        <strong>{{contract.CName}}</strong>
+                        <small>合同编号: {{contract.ContractNo}} ,客户: {{contract.CustomerName}} ,合同金额: {{contract.Amount | currency:''}}</small>
+                    </a>
+                </li>
+            </ul>
+            <ul ng-show="steps=='after'">
+                <li></li>
+            </ul>
+            <a href="#" ng-show="hasMoreRecords" class="button anchor margin bottom" ng-click="showMoreRecords()">更多</a>
+        </article>
+        -->
 </section>

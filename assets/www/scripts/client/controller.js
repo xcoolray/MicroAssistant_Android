@@ -1,4 +1,4 @@
-﻿function ClientMainCtrl($scope, $routeParams, $http, $location) {
+﻿function ClientMainCtrl($scope, $routeParams, $http, $location, clientmodel) {
     var $parent = $scope.$parent;
     $scope.sorts = $routeParams.sorts;
     if (!$scope.sorts) {
@@ -8,7 +8,33 @@
     else {
         $parent.personalActPageIndex = 1;
     }
+
+    $scope.hasMoreRecords = false;
+
+    $scope.refreshList = function () {
+        $scope.loadCurrentSortList(-1);
+    }
+
+    $scope.showMoreRecords = function () {
+        $scope.loadCurrentSortList(1);
+    }
+
     $scope.loadCurrentSortList = function (pageIndex) {
+        clientmodel.getlist($scope.sorts, pageIndex, 2, function (data) {
+            if (data.Error) {
+                alert(data.ErrorMessage);
+            }
+            $scope.hasMoreRecords = data.hasMore;
+            switch ($scope.sorts) {
+                case 'enterprise':
+                    $scope.enterpriseclients = data.Items || [];
+                    break;
+                case 'personal':
+                    $scope.personalclients = data.Items || [];
+                    break;
+            }
+        });
+        /*
         if (pageIndex == 0) pageIndex = 1;
         switch ($scope.sorts) {
             case 'enterprise'://获取企业用户
@@ -36,12 +62,12 @@
                     $scope.personalclients = [];
                 })//.lock({ selector: '#PClientList' });
                 break;
-        }
+        }*/
     };
-    $scope.loadCurrentSortList($routeParams.pageIndex || 1);
+    $scope.loadCurrentSortList(0);
     $scope.changeSorts = function (sorts) {
         $scope.sorts = sorts;
-        $scope.loadCurrentSortList();
+        $scope.loadCurrentSortList(0);
     }
     $scope.ShowAddEnterpriseForm = function () {
         $scope.$broadcast('EventAddEnterprise', this.enterpriseclientItem);

@@ -26,7 +26,27 @@
 </head>
 
 <body ng-controller="MainCtrl" class="perspective effect-airbnb">
-    <div id="contentWraper" class="container"></div>
+    <!--<div id="contentWraper" class="container"></div>-->
+<section id="account-login" data-transition="slide">
+    <article class="active splash"  ng-controller="UserLoginMainCtrl">
+        <img src="img/logo1.png" class="logo"/>
+        <div class="form">
+            <form name="UserLoginForm" id="form" ng-class="showerror?'showerror':''">
+            <fieldset class="radius-top" data-icon="user">
+                <input type="email" name="emial" ng-model="User.email" ng-required="true"  placeholder="请输入邮箱" id="txt-signup-name" value="">
+            </fieldset>
+            <fieldset class="radius-bottom shadow" data-icon="lock">
+                <input type="password" name="pwd" ng-model="User.pwd" maxlength="18" ng-required="true"  placeholder="请输入密码" id="txt-signup-password" value="">
+            </fieldset>
+            <br/>
+            <button class="anchor" data-icon="lock" data-icon="user" href="javascript:void(0)" ng-click="UserLogin()" data-label="登陆"></button>
+            <button data-view-section="account-register" data-async="partials/account/register.html" class="secondary anchor" data-icon="home" data-label="员工注册"></button>
+            <button data-view-section="account-entregister" data-async="partials/account/ent-register.html" class="secondary anchor" data-icon="home" data-label="企业注册"></button>
+            </form>
+        </div>
+        <span class="copyright text thin">Copyright (C) 2013-2014 - <span class="text bold">微企助手</span></span>
+    </article>
+</section>
     <section id="main" data-transition="slide">
         <header>
             <nav>
@@ -71,36 +91,42 @@
     <script src="scripts/models/productmodel.js"></script>
     <script src="scripts/models/salesmodel.js"></script>
     <script src="scripts/models/financemodel.js"></script>
+    <script src="scripts/models/clientmodel.js"></script>
     <script src="scripts/account/controllers.js"></script>
     <script src="scripts/product/controllers.js"></script>
     <script src="scripts/sales/controllers.js"></script>
     <script src="scripts/finance/controllers.js"></script>
     <script src="scripts/client/controller.js"></script>
     <script src="scripts/app.js"></script>
-	<script src="components/PerspectivePageViewNavigation/js/menu.js"></script>
+	<script src="components/PerspectivePageViewNavigation/js/menu2.js"></script>
     <script>
         var MicroAssistantApp = {};
         Lungo.init({
             name: 'microassistant',
             version: '1.0',
             resources: [
-                'partials/account/login.html'],
+                'partials/products/list.html',
+                'partials/sales/list.html',
+                'partials/finance/list.html',
+                'partials/client/list.html'
+            ],
             history: false
         });
         Lungo.Events.init({
             'load section#product-list': function (event) {
-                MicroAssistantApp.pull = new Lungo.Element.Pull('section#product-list article', {
+                MicroAssistantApp.productpull = new Lungo.Element.Pull('section#product-list article', {
                     onPull: "",
                     onRelease: "",
                     onRefresh: "",
                     callback: function () {
                         //alert("Pull & Refresh completed!");
                         Lungo.dom('#product-list article').trigger('refresh');
-                        MicroAssistantApp.pull.hide();
+                        MicroAssistantApp.productpull.hide();
+                        //console.log(MicroAssistantApp.productpull.hide);
                     }
                 });
             },
-            'load section#sales-list': function (event) {
+            /*'load section#sales-list': function (event) {
                 MicroAssistantApp.pull = new Lungo.Element.Pull('section#sales-list article', {
                     onPull: "",
                     onRelease: "",
@@ -111,20 +137,57 @@
                         MicroAssistantApp.pull.hide();
                     }
                 });
-            },
+            },*/
             'load section#finance-list': function (event) {
-                MicroAssistantApp.pull = new Lungo.Element.Pull('section#finance-list article', {
+                MicroAssistantApp.financepull = new Lungo.Element.Pull('section#finance-list article', {
                     onPull: "",
                     onRelease: "",
                     onRefresh: "",
                     callback: function () {
                         //alert("Pull & Refresh completed!");
                         Lungo.dom('#finance-list article').trigger('refresh');
-                        MicroAssistantApp.pull.hide();
+                        MicroAssistantApp.financepull.hide();
+                    }
+                });
+            },
+            'load section#client-list': function (event) {
+                MicroAssistantApp.clientpull = new Lungo.Element.Pull('section#client-list article', {
+                    onPull: "",
+                    onRelease: "",
+                    onRefresh: "",
+                    callback: function () {
+                        //alert("Pull & Refresh completed!");
+                        Lungo.dom('#client-list article').trigger('refresh');
+                        MicroAssistantApp.clientpull.hide();
+                    }
+                });
+            },
+            'load section#sales-chance-list': function (event) {
+                MicroAssistantApp.chancepull = new Lungo.Element.Pull('section#sales-chance-list article', {
+                    onPull: "",
+                    onRelease: "",
+                    onRefresh: "",
+                    callback: function () {
+                        //alert("Pull & Refresh completed!");
+                        Lungo.dom('#sales-chance-list article').trigger('refresh');
+                        MicroAssistantApp.chancepull.hide();
                     }
                 });
             }
         });
+
+        (function () {
+            var pulllist = [
+            'section#product-list',
+            'section#finance-list',
+            'section#client-list',
+            'section#client-list'
+            ];
+
+            for (var i = 0; i < pulllist.length; i++) {
+                Lungo.dom(pulllist[i]).trigger('load');
+            }
+        })();
     </script>
 </body>
 </html>
