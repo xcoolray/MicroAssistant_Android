@@ -101,6 +101,20 @@
 	<script src="components/PerspectivePageViewNavigation/js/menu2.js"></script>
     <script>
         var MicroAssistantApp = {};
+        MicroAssistantApp.pull = function (selector) {
+            if (MicroAssistantApp[selector])
+                return;
+            MicroAssistantApp[selector] = new Lungo.Element.Pull(selector, {
+                onPull: "",
+                onRelease: "",
+                onRefresh: "",
+                callback: function () {
+                    //alert("Pull & Refresh completed!");
+                    Lungo.dom(selector).trigger('pullRefresh');
+                    MicroAssistantApp[selector].hide();
+                }
+            });
+        };
         Lungo.init({
             name: 'microassistant',
             version: '1.0',
@@ -114,65 +128,16 @@
         });
         Lungo.Events.init({
             'load section#product-list': function (event) {
-                MicroAssistantApp.productpull = new Lungo.Element.Pull('section#product-list article', {
-                    onPull: "",
-                    onRelease: "",
-                    onRefresh: "",
-                    callback: function () {
-                        //alert("Pull & Refresh completed!");
-                        Lungo.dom('#product-list article').trigger('refresh');
-                        MicroAssistantApp.productpull.hide();
-                        //console.log(MicroAssistantApp.productpull.hide);
-                    }
-                });
+                MicroAssistantApp.pull('section#product-list article');
             },
-            /*'load section#sales-list': function (event) {
-                MicroAssistantApp.pull = new Lungo.Element.Pull('section#sales-list article', {
-                    onPull: "",
-                    onRelease: "",
-                    onRefresh: "",
-                    callback: function () {
-                        //alert("Pull & Refresh completed!");
-                        Lungo.dom('#sales-list article').trigger('refresh');
-                        MicroAssistantApp.pull.hide();
-                    }
-                });
-            },*/
             'load section#finance-list': function (event) {
-                MicroAssistantApp.financepull = new Lungo.Element.Pull('section#finance-list article', {
-                    onPull: "",
-                    onRelease: "",
-                    onRefresh: "",
-                    callback: function () {
-                        //alert("Pull & Refresh completed!");
-                        Lungo.dom('#finance-list article').trigger('refresh');
-                        MicroAssistantApp.financepull.hide();
-                    }
-                });
+                MicroAssistantApp.pull('section#finance-list article');
             },
             'load section#client-list': function (event) {
-                MicroAssistantApp.clientpull = new Lungo.Element.Pull('section#client-list article', {
-                    onPull: "",
-                    onRelease: "",
-                    onRefresh: "",
-                    callback: function () {
-                        //alert("Pull & Refresh completed!");
-                        Lungo.dom('#client-list article').trigger('refresh');
-                        MicroAssistantApp.clientpull.hide();
-                    }
-                });
+                MicroAssistantApp.pull('section#client-list article');
             },
             'load section#sales-chance-list': function (event) {
-                MicroAssistantApp.chancepull = new Lungo.Element.Pull('section#sales-chance-list article', {
-                    onPull: "",
-                    onRelease: "",
-                    onRefresh: "",
-                    callback: function () {
-                        //alert("Pull & Refresh completed!");
-                        Lungo.dom('#sales-chance-list article').trigger('refresh');
-                        MicroAssistantApp.chancepull.hide();
-                    }
-                });
+                MicroAssistantApp.pull('section#sales-chance-list article');
             }
         });
 

@@ -14,7 +14,7 @@
          };
      });
 
-     function makeRefreshDirective(directiveName, eventName) {
+     function makeEventLisenerDirective(directiveName, eventName) {
          $compileProvider.directive(directiveName, ['$parse', function ($parse) {
              return {
                  compile: function ($element, attr) {
@@ -31,32 +31,26 @@
          }]);
      }
 
-     makeRefreshDirective('ngRefresh', 'refresh');
+     makeEventLisenerDirective('ngRefresh', 'pullRefresh');
+     makeEventLisenerDirective('ngTouch', 'touch');
+     makeEventLisenerDirective('ngTap', 'tap');
  }])
     .constant('$sitecore', $sitecore)
     .constant('$pagination', { pageindex: 0, pagesize: 10 })
     .value('$anchorScroll', angular.noop)
     .service('$dataCache', ['$cacheFactory', function ($cacheFactory) {
-        var userCacheKey = 'userCacheKey', catalogsCacheKey = 'catalogsCacheKey', productCacheKey = 'productCacheKey';
-        var getCache = function (key) {
+        this.getCache = function (key) {
             var cache = $cacheFactory.get(key);
             if (!cache) {
                 cache = $cacheFactory(key);
             }
             return cache;
         };
-
         this.getUserCache = function () {
-            return getCache(userCacheKey);
-        };
-        this.getCatalogCache = function () {
-            return getCache(catalogsCacheKey);
-        };
-        this.getProductCache = function (catid) {
-            return getCache(productCacheKey + catid);
+            return this.getCache('userCacheKey');
         };
         this.getListCache = function (catalogKey) {
-            return getCache(catalogKey);
+            return this.getCache(catalogKey);
         };
     }])
     .service('$routeParams', function () {
@@ -125,5 +119,63 @@ function MainCtrl($scope, $rootScope, $http, $filter, usermodel, respicmodel) {
 
         angular.hideMenu({});
     };
+
+    $scope.parseNumberToChinese = function (num) {
+        console.log(num);
+        if (!isNaN(num))
+            num = Math.abs(num);
+        if (isNaN(num) || num == 0)
+            return '零';
+        var result = '';
+        var chinese = '一二三四五六七八九';
+        if (num >= 10 && num < 20) {
+            result += '十';
+        }
+        else if (num >= 20) {
+            result += chinese.charAt(Math.floor(num / 10) - 1) + '十';
+        }
+        if ((num % 10) > 0)
+            result += chinese.charAt((num % 10) - 1);
+        return result;
+    }
+
+    $scope.parseJsonDate = function (datestr, format) {
+        //console.log(typeof (new Date()));
+        var date;
+        if (!datestr) {
+            date = new Date();
+        }
+        else if (typeof datestr == 'object') {
+            date = datestr;
+        }
+        else if (typeof datestr == 'string') {
+            if ((/Date/ig).test(datestr)) {
+                datestr = datestr.replace(/\//g, '');
+                date = eval(datestr.replace(/Date\(([\-\d]+)\)/gi, "new Date($1)"));
+                //console.log(date);
+                //console.log(datestr.replace(/Date\((\d+)\)/gi, "new Date($1)"));
+                //console.log(date);
+            }
+            else
+                return datestr;
+        }
+        else {
+            date = new Date();
+        }
+        if (format)
+            return $filter('date')(date, format);
+        return date;
+    };
+    //根据生日计算年龄
+    $scope.parseAgeFromBirthday = function (time) {
+        var birthday = $scope.parseJsonDate(time);
+        if (typeof birthday == 'object') {
+            var d = new Date();
+            var age = d.getFullYear() - birthday.getFullYear() - ((d.getMonth() < birthday.getMonth() || d.getMonth() == birthday.getMonth() && d.getDate() < birthday.getDate()) ? 1 : 0);
+            return age;
+        } else {
+            return 0;
+        }
+    }
 }
 

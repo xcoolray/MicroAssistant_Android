@@ -2,11 +2,7 @@
 angular.module('models.product').factory('productmodel', ['$serverModels', '$pagination', '$dataCache', function ($serverModels, $pagination, $dataCache) {
 
     var productmodel = $serverModels();
-    var catalogCache = $dataCache.getCatalogCache();
 
-    var removeCatalogCache = function () {
-        catalogCache.removeAll();
-    };
     productmodel.getcatalogs = function (pageindex, pagesize, scb, ecb) {
         var refresh = pageindex < 0;
         return productmodel.querylist({
@@ -97,7 +93,6 @@ angular.module('models.product').factory('productmodel', ['$serverModels', '$pag
             data: { fatherid: 0, pTypeName: name, ptypepicid: picid || 0 },
             lock: true,
             scb: function (data) {
-                removeCatalogCache();
                 typeof scb == 'function' && scb.apply(this, arguments);
             },
             ecb: ecb

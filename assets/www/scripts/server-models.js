@@ -112,6 +112,16 @@ angular.module('$serverModels', []).factory('$serverModels', ['$pagination', '$d
             return Resource.query(config);
         };
 
+        Resource.cache = function (key, value) {
+            var global = $dataCache.getCache('globalCacheKey');
+            if (typeof value != "undefined") {
+                global.put(key, value);
+            }
+            else {
+                return global.get(key);
+            }
+        };
+
         return Resource;
     }
 

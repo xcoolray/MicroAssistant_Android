@@ -1,14 +1,14 @@
-﻿<section id="sales-chance-list" class="container" data-transition="slide" ng-controller="SalesChanceMainCtrl" data-pull="arrow-down">
+﻿<section id="sales-chance-list" data-transition="slide" ng-controller="SalesChanceMainCtrl" data-pull="arrow-down">
     <header data-title="销售机会" class="extended">
         <nav>
             <a href="#"  data-view-section="sales-list" data-icon="chevron-left"></a>
         </nav>
     </header>
 
-        <article id="sales-chance-list-article" class="active list indented" ng-refresh="refreshList()">
+        <article id="sales-chance-list-article" class="active list indented scroll" ng-refresh="refreshList()">
             <ul id="sales-chance-list-ul">
                 <li ng-repeat="chance in chances">
-                    <a href="#">
+                    <a href="" ng-tap="chanceDetail($event)" data-view-section="sales-chance-detail" data-async="partials/sales/chancedetail.html">
                         <strong>{{chance.Remark| limitTo:15}}</strong>
                         <small>联系人: {{chance.ContactName}} ,联系方式: {{chance.Phone||chance.Tel||chance.Email||chance.Qq}} ,创建时间: {{parseJsonDate(chance.AddTime,'yyyy/MM/dd')}}</small>
                     </a>

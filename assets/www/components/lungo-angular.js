@@ -26,6 +26,7 @@
                 }
                 else {
                     console.log('compile section' + el.attr('id'));
+                    console.log(el);
                     angular.element(document).injector().invoke(function ($compile) {
                         var scope = angular.element(el[0]).scope();
                         $compile(el[0])(scope);

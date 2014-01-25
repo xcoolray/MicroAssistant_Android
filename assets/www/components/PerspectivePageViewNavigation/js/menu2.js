@@ -40,18 +40,10 @@
     function init() {
         var perspectiveWrapper = lng.dom(document.body), contentWrapper;
         var makeContainer = function(make) {
-            var menuContents = [
-                lng.dom('#main'),
-                lng.dom('#product-list'),
-                lng.dom('#sales-list'),
-                lng.dom('#finance-list'),
-                lng.dom('#client-list')];
-            for (var i = 0; i < menuContents.length; i++) {
-                if (make) {
-                    menuContents[i].addClass('container');
-                } else {
-                    menuContents[i].removeClass('container');
-                }
+            if (make) {
+                lng.dom('section').addClass('container');
+            } else {
+                lng.dom('section').removeClass('container');
             }
         }
 

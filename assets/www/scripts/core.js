@@ -5,6 +5,9 @@ $sitecore.urls.base = "http://115.28.168.160";
 $sitecore.urls.add = function(name,url){
 	$sitecore.urls[name] = $sitecore.urls.base + url +"?timestamp="+ new Date().getTime();
 };
+$sitecore.urls.addurl = function (name, url) {
+    $sitecore.urls[name] = url;
+};
 
 $sitecore.wrapsrc = function (src) {
     return $sitecore.urls.base + src;
@@ -13,6 +16,8 @@ $sitecore.wrapsrc = function (src) {
 $sitecore.getsrc = function (name) {
     return $sitecore.urls[name];
 };
+
+$sitecore.urls.addurl("BaiduGeocoder", 'http://api.map.baidu.com/geocoder?location={lat},{lng}&coord_type=gcj02&output=json&src=MicroAssistant')
 
 $sitecore.urls.add("UploadFile", "/FileManagement/File/UploadFile");
 $sitecore.urls.add("SourceFileClipOrThumb", "/FileManagement/File/SourceFileClipOrThumb");

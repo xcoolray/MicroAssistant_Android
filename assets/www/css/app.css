@@ -129,3 +129,11 @@ body > section > article,
 body > section > [data-control="pull"] {
   background-color: #1ABC9C;
 }
+
+.footerbtn {
+    background-color:#ef5d5d;color:#fff;
+}
+
+.gray {
+    color:#808080;
+}

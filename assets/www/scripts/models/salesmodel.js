@@ -33,5 +33,35 @@ angular.module('models.sales').factory('salesmodel', ['$serverModels', function 
         });
     };
 
+    salesmodel.getaddress = function (lat, lng, scb, ecb) {
+        var url = $sitecore.urls["BaiduGeocoder"];
+        url = url.replace('{lat}', lat);
+        url = url.replace('{lng}', lng);
+        return salesmodel.query({
+            url: url,
+            data: { },
+            lock: false,
+            scb: scb,
+            ecb: ecb
+        });
+    };
+
+    salesmodel.addvisit = function (visit, scb, ecb) {
+        return salesmodel.query({
+            url: $sitecore.urls["salesAddChanceVisits"],
+            data: {
+                cid: visit.IdmarketingChance,
+                vid: visit.IdmarketingVisit,
+                visitType: visit.VisitType,
+                remark: visit.Remark,
+                amount: visit || 0,
+                address: visit.Address
+            },
+            lock: false,
+            scb: scb,
+            ecb: ecb
+        });
+    };
+
     return salesmodel;
 }]);
