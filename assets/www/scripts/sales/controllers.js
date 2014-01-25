@@ -190,7 +190,7 @@ function SalesChanceMainCtrl($scope, $rootScope, $routeParams, $http, $location,
     };
 }
 
-function SalesChanceDetailCtrl($scope, $routeParams, $http, $location, $filter,$timeout, salesmodel) {
+function SalesChanceDetailCtrl($scope, $rootScope, $routeParams, $http, $location, $filter, $timeout, salesmodel) {
     var fromscope, chance, selectdate;
     //$scope.chance = salesmodel.currentChance();
     console.log($scope.CurrentChance);
@@ -283,31 +283,44 @@ function SalesChanceDetailCtrl($scope, $routeParams, $http, $location, $filter,$
 	        });
 	    });
 	};
+
+	$scope.chanceToVisit = function () {
+	    $rootScope.$broadcast('EventVisitCreate');
+	};
 };
 function SalesVisitCreateCtrl($scope, $rootScope, $routeParams, $http, $location, $timeout, salesmodel) {
-    /*
-    navigator.geolocation.getCurrentPosition(function () {
-        var element = document.getElementById('geolocation');
-        element.innerHTML = 'Latitude: ' + position.coords.latitude + '<br />' +
-                            'Longitude: ' + position.coords.longitude + '<br />' +
-                            'Altitude: ' + position.coords.altitude + '<br />' +
-                            'Accuracy: ' + position.coords.accuracy + '<br />' +
-                            'Altitude Accuracy: ' + position.coords.altitudeAccuracy + '<br />' +
-                            'Heading: ' + position.coords.heading + '<br />' +
-                            'Speed: ' + position.coords.speed + '<br />' +
-                            'Timestamp: ' + position.timestamp + '<br />';
-    }, function () { });*/
 
     $scope.EditVisit = { Address: '正在获取...' };
 
-    salesmodel.getaddress('39.990912', '116.327159', function (data) {
-        console.log(data);
-        if (data.status == 'OK')
-        {
-            $scope.EditVisit.Address = data.result.formatted_address;
+    $scope.getGeoAddress = function () {
+        try {
+            navigator.geolocation.getCurrentPosition(function () {
+                salesmodel.getaddress(position.coords.latitude, position.coords.longitude, function (data) {
+                    console.log(data);
+                    if (data.status == 'OK') {
+                        $scope.EditVisit.Address = data.result.formatted_address;
+                    }
+                }, function () { });
+                /*
+                var element = document.getElementById('geolocation');
+                element.innerHTML = 'Latitude: ' + position.coords.latitude + '<br />' +
+                                    'Longitude: ' + position.coords.longitude + '<br />' +
+                                    'Altitude: ' + position.coords.altitude + '<br />' +
+                                    'Accuracy: ' + position.coords.accuracy + '<br />' +
+                                    'Altitude Accuracy: ' + position.coords.altitudeAccuracy + '<br />' +
+                                    'Heading: ' + position.coords.heading + '<br />' +
+                                    'Speed: ' + position.coords.speed + '<br />' +
+                                    'Timestamp: ' + position.timestamp + '<br />';*/
+            }, function () { });
         }
-    }, function () { });
-
+        catch (e) {
+            $scope.EditVisit.Address = '地址获取失败，点击重新获取';
+        }
+    };
+    $scope.getGeoAddress();
+    $scope.$on('EventVisitCreate', function (event) {
+        $scope.getGeoAddress();
+    });
     $timeout(function () { }, 1);
 
     $scope.addChanceVisit = function () {
