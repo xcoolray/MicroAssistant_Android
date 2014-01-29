@@ -144,3 +144,118 @@ body > section > [data-control="pull"] {
 .display_block {
     display:block;
 }
+
+.visitdetail {
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-box;
+    display: -o-box;
+    display: box;
+    -webkit-box-orient: horizontal;
+    -moz-box-orient: horizontal;
+    -ms-box-orient: horizontal;
+    -o-box-orient: horizontal;
+    box-orient: horizontal;
+    height: 120px;
+    font-size:1em;
+}
+
+.visitdetail_head{width:80px;padding:0 10px;text-align:center;color:#fff;}
+.visitdetail_head img {width:60px; height:60px;border-radius: 30px;margin-bottom:5px;}
+.visitdetail_head span {
+    }
+
+.visitdetail_body {
+height:100px;
+-moz-box-flex:1;
+-webkit-box-flex:1;
+-ms-box-flex:1;
+-o-box-flex:1;
+box-flex:1;
+}
+.visitdetail_body .remark {
+    height:70px;
+    width:100%;
+    }
+.visitdetail_body .btn_bar {
+height:30px;
+width:100%;
+display: -webkit-box;
+display: -moz-box;
+display: -ms-box;
+display: -o-box;
+display: box;
+-webkit-box-orient: horizontal;
+-moz-box-orient: horizontal;
+-ms-box-orient: horizontal;
+-o-box-orient: horizontal;
+box-orient: horizontal;
+}
+
+.visitdetail_body .chance_rate {
+-moz-box-flex:1;
+-webkit-box-flex:1;
+-ms-box-flex:1;
+-o-box-flex:1;
+box-flex:1;
+color:#F25749;
+line-height:30px;
+    }
+.visitdetail_body .create_visit_btn {
+width:120px;
+}
+
+.visitdetail_list {
+}
+
+.vistdetaillistitem {
+width:100%;
+display: -webkit-box;
+display: -moz-box;
+display: -ms-box;
+display: -o-box;
+display: box;
+-webkit-box-orient: horizontal;
+-moz-box-orient: horizontal;
+-ms-box-orient: horizontal;
+-o-box-orient: horizontal;
+box-orient: horizontal;
+}
+
+.vistdetaillistitem .times {
+width: 100px;
+text-align: center;
+display: -webkit-box;
+-webkit-box-align: center;
+background-color:#248FAF;
+color:#fff;
+    }
+.vistdetaillistitem .times div {
+    margin:auto;
+    }
+.vistdetaillistitem .times .num{
+    font-size:1.2em;
+}
+.vistdetaillistitem .content {
+-moz-box-flex:1;
+-webkit-box-flex:1;
+-ms-box-flex:1;
+-o-box-flex:1;
+box-flex:1;
+font-size:0.8em;
+    }
+.vistdetaillistitem .price {
+    text-align:right;
+    }
+.vistdetaillistitem .content_remark {
+    margin:0.5em;
+    }
+.vistdetaillistitem .price span {
+    background:#F25749;
+    color:#fff;
+    padding:0 0.5em;
+    }
+
+.vistdetaillistitem .address {
+    color:#CCCCCC;
+}

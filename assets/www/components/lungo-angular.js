@@ -5,7 +5,29 @@
 (function (lng, angular, undefined) {
     var NG_FLAG = "angular-element";
     var load = lng.Resource.load;
+    var init = lng.Boot.Data.init;
+    var loadedList = [];
+    var initedList = [];
+    lng.Boot.Data.init = function () {
+        var id = angular.lowercase(arguments[0]);
+        for (var i = 0; i < initedList.length; i++) {
+            if (id == initedList[i]) {
+                return;
+            }
+        }
+        initedList.push(id);
+        init.apply(this, arguments);
+    };
     lng.Resource.load = function () {
+        var src = angular.lowercase(arguments[0]);
+        for (var i = 0; i < loadedList.length; i++)
+        {
+            if (src == loadedList[i])
+            {
+                return;
+            }
+        }
+        loadedList.push(src);
         load.apply(this, arguments);
         lng.ready(function () {
             lng.dom('section').each(function () {

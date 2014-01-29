@@ -53,15 +53,18 @@ angular.module('$serverModels', []).factory('$serverModels', ['$pagination', '$d
         };
 
         Resource.query = function (config) {
-            config.scb({ Data: { PicId: 0 }, Items: [] });
-            /*
+            //config.scb({ Data: { PicId: 0 }, Items: [] });
+            
             var httpPromise = $http.post(config.url, config.data);
             return thenFactoryMethod(httpPromise, config.scb, config.ecb, config.pfn, false);
-            */
+            
         };
 
         Resource.querylist = function (config) {
             var cache = $dataCache.getListCache(config.cacheKey);
+            var loading = cache.get('loading');
+            if (loading)
+                return;
             var cacheData = cache.get('data');
 
             config.data = config.data || {};
@@ -90,6 +93,7 @@ angular.module('$serverModels', []).factory('$serverModels', ['$pagination', '$d
             }
             var scb = config.scb;
             config.scb = function (data) {
+                cache.put('loading', false);
                 if (angular.isArray(data.Data.Items)) {
                     if (cacheData.items.length) {
                         var last = cacheData.items[cacheData.items.length - 1];
@@ -112,6 +116,7 @@ angular.module('$serverModels', []).factory('$serverModels', ['$pagination', '$d
                 data.Items = cacheData.items;
                 typeof scb == 'function' && scb.apply(this, arguments);
             }
+            cache.put('loading', true);
             return Resource.query(config);
         };
 

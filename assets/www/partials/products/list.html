@@ -5,7 +5,7 @@
         </nav>
         <div class="groupbar-container">
                 <nav data-control="groupbar" ng-style="navStyle">
-                    <a href="#" ng-class="catalog.PTypeId==currentCatalogId?'active':''" ng-repeat="catalog in catalogs" ng-click="activeCat(catalog.PTypeId,0)">
+                    <a href="#" ng-class="catalog.PTypeId==currentCatalogId?'active':''" ng-repeat="catalog in catalogs" ng-tap="activeCat(catalog.PTypeId,0)">
                         <abbr>{{catalog.PTypeName}}</abbr>
                     </a>
                 </nav>

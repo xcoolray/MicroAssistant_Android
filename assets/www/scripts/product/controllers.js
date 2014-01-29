@@ -134,6 +134,7 @@ function ProductMainCtrl($scope, $routeParams, $http, $location, productmodel, $
     $scope.$on('onLoginSuccess', function (event) {
         $scope.showCatalogs($routeParams.catalogId, 0);
     });
+    $scope.showCatalogs($routeParams.catalogId, 0);
     //bootstro.start('.bootstro', {
     //    url : 'partials/product/help.json',
     //    nextButtonText : '继续 &raquo;',

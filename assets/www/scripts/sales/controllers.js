@@ -9,96 +9,6 @@ function SalesMainCtrl($scope, $routeParams, $http, $location, salesmodel) {
 	$scope.SalesContractCount = 0;
 	$scope.SalesAfterCount = 0;
 	console.log($routeParams)
-    /*
-	$scope.hasMoreRecords = false;
-
-	$scope.refreshList = function () {
-	    $scope.loadCurrentStepList(-1);
-	}
-
-	$scope.showMoreRecords = function () {
-	    $scope.loadCurrentStepList(1);
-	}
-	//显示列表内容
-	$scope.loadCurrentStepList = function (pageindex) {
-	    salesmodel.getlist($scope.steps, pageindex, 2, function (data) {
-	        if (data.Error) {
-	            alert(data.ErrorMessage);
-	        }
-	        $scope.hasMoreRecords = data.hasMore;
-	        switch ($scope.steps) {
-	            case 'chance':
-	                $scope.chances = data.Items || [];
-	                break;
-	            case 'visit':
-	                $scope.cvisits = data.Items || [];
-	                break;
-	            case 'contract':
-	                $scope.contracts = data.Items || [];
-	                break;
-	            case 'after':
-	                $scope.afters = data.Items || [];
-	                break;
-	        }
-	    });
-        /*
-		switch($scope.steps)
-		{
-		    case 'chance':
-		        if (!$scope.chances) {
-		            $http.post($sitecore.urls["salesChanceList"], { pageIndex: pageIndex - 1, pageSize: 10 }).success(function (data) {
-		                console.log(data);
-		                if (data.Error) {
-		                    alert(data.ErrorMessage);
-		                }
-		                $scope.ActPageIndex = $routeParams.pageIndex || 0;
-		                $scope.chances = data.Data.Items;
-		                //$scope.pages = utilities.paging(data.Data.RecordsCount, pageIndex, 10, '#sales/chance/{0}');
-		            }).
-                    error(function (data, status, headers, config) {
-                        $scope.chances = [];
-                    });
-		        }
-				break;
-		    case 'visit':
-		        if (!$scope.cvisits) {
-		            $http.post($sitecore.urls["salesChanceVisitList"], { pageIndex: pageIndex - 1, pageSize: 10 }).success(function (data) {
-		                console.log(data);
-		                $scope.ActPageIndex = $routeParams.pageIndex || 0;
-		                $scope.cvisits = data.Data.Items;
-		                //$scope.pages = utilities.paging(data.Data.RecordsCount, pageIndex, 10, '#sales/visit/{0}');
-		            }).
-                    error(function (data, status, headers, config) {
-                        $scope.cvisits = [];
-                    })//.lock({ selector: '#salesVisitListBox' });
-		        }
-				break;
-			case 'contract':
-			    if (!$scope.contracts) {
-			        $http.post($sitecore.urls["salesConractList"], { pageIndex: pageIndex - 1, pageSize: 10 }).success(function (data) {
-			            console.log(data);
-			            $scope.ActPageIndex = $routeParams.pageIndex || 0;
-			            $scope.contracts = data.Data.Items;
-			            //$scope.pages = utilities.paging(data.Data.RecordsCount, pageIndex, 10, '#sales/contract/{0}');
-			        }).
-                    error(function (data, status, headers, config) {
-                        $scope.contracts = [];
-                    })//.lock({ selector: '#salesContractListBox' });
-			    }
-				break;
-			case 'after':
-			    $http.get($sitecore.urls["productList"], { params: { pageIndex: pageIndex - 1 } }).success(function (data) {
-					console.log(data);
-				  $scope.ActPageIndex = $routeParams.pageIndex||1;
-				  $scope.afters = data;
-				  //$scope.pages = utilities.paging(data.Data.RecordsCount, pageIndex, 10, '#sales/after/{0}');
-				}).
-				error(function(data, status, headers, config) {
-				  $scope.afters = [];
-				})//.lock({ selector: '#salesAfterListBox' });
-				break;
-		}
-	};*/
 	$scope.addCurrentStepItem = function (step) {
 	    var steps = step || $scope.steps;
 	    switch (steps)
@@ -184,10 +94,64 @@ function SalesChanceMainCtrl($scope, $rootScope, $routeParams, $http, $location,
     $scope.loadCurrentStepList(0);
 
     $scope.chanceDetail = function (ev) {
+        ev.stopPropagation();
+        ev.preventDefault();
         $rootScope.CurrentChance = this.chance;
+        angular.loadSection('sales-chance-detail');
         //ev.stopPropagation();
         //ev.preventDefault();
+        // data-view-section="sales-chance-detail" data-async="partials/sales/chancedetail.html"
     };
+}
+
+function SalesVisitMainCtrl($scope, $rootScope, $routeParams, $http, $location, salesmodel) {
+    $scope.steps = "visit";
+    $scope.hasMoreRecords = false;
+
+    $scope.refreshList = function () {
+        $scope.loadCurrentStepList(-1);
+    }
+
+    $scope.showMoreRecords = function () {
+        $scope.loadCurrentStepList(1);
+    }
+    //显示列表内容
+    $scope.loadCurrentStepList = function (pageindex) {
+        console.log(pageindex)
+        salesmodel.getlist($scope.steps, pageindex, 10, function (data) {
+            if (data.Error) {
+                alert(data.ErrorMessage);
+            }
+            $scope.hasMoreRecords = data.hasMore;
+
+            $scope.visits = data.Items || [];
+            console.log($scope.chances);
+        });
+    };
+    $scope.loadCurrentStepList(0);
+
+    $scope.visitDetail = function (ev) {
+        console.log('visitDetail')
+        ev.stopPropagation();
+        ev.preventDefault();
+        $rootScope.CurrentChance = angular.extend($rootScope.CurrentChance || {}, this.visit);
+        angular.loadSection('sales-visit-detail');
+        $rootScope.$broadcast('EventUpdateVisitDetail');
+        //ev.stopPropagation();
+        //ev.preventDefault();
+        // data-view-section="sales-visit-detail" data-async="partials/sales/visitdetail.html"
+    };
+
+    $scope.visitToVisit = function (ev)
+    {
+        console.log('visitToVisit')
+        ev.stopPropagation();
+        ev.preventDefault();
+        $rootScope.SaleOperationFrom = 'visitlist';
+        $rootScope.CurrentChance = angular.extend($rootScope.CurrentChance || {}, this.visit);
+        angular.loadSection('sales-visit-create');
+        //  data-view-section="sales-visit-create" data-async="partials/sales/visitcreate.html" 
+    }
 }
 
 function SalesChanceDetailCtrl($scope, $rootScope, $routeParams, $http, $location, $filter, $timeout, salesmodel) {
@@ -195,39 +159,6 @@ function SalesChanceDetailCtrl($scope, $rootScope, $routeParams, $http, $locatio
     //$scope.chance = salesmodel.currentChance();
     console.log($scope.CurrentChance);
     $timeout(function () { }, 1);
-    /*
-    $("#chanceDetailBox").hide();
-    
-    $scope.$on('EventChanceDetail', function (event, from) {
-        $("#chanceDetailBox").show();
-        $("#chanceDetailBox").animate({ width: "520px" }, 300, function () {
-            $("#chanceDetailBox .form_datetime").datetimepicker({
-                minView:2,
-                language:'zh-CN',
-                format: "yyyy/mm/dd",
-                autoclose: true,
-                todayBtn: true,
-                pickerPosition: "bottom-left"
-            })
-            .on('changeDate', function (ev) {
-                $scope.$apply(function () {
-                    selectdate = ev.date;
-                    $scope.chance.FormatAddTime = ev.target.value
-                });
-                console.log();
-            });
-        });
-        fromscope = from;
-        chance = from.chance;
-        chance.FormatAddTime = $scope.parseJsonDate(chance.AddTime, 'yyyy/MM/dd');
-        chance.CustomerType = chance.CustomerType + "";
-        chance.ChanceType = chance.ChanceType + "";
-        $scope.oldchance = chance;
-        $scope.chance = angular.copy(chance);
-        
-
-		//加载机会数据
-    });*/
 
     $scope.chanceDetailHasChanged = function () {
         return !angular.equals($scope.oldchance, $scope.chance);
@@ -284,15 +215,25 @@ function SalesChanceDetailCtrl($scope, $rootScope, $routeParams, $http, $locatio
 	    });
 	};
 
-	$scope.chanceToVisit = function () {
+	$scope.chanceToVisit = function (ev) {
+	    ev.stopPropagation();
+	    ev.preventDefault();
+	    $rootScope.SaleOperationFrom = 'chance';
+	    angular.loadSection('sales-visit-create');
 	    $rootScope.$broadcast('EventVisitCreate');
 	};
 };
 function SalesVisitCreateCtrl($scope, $rootScope, $routeParams, $http, $location, $timeout, salesmodel) {
 
-    $scope.EditVisit = { Address: '正在获取...' };
+    $scope.EditVisit = { Address: '正在获取...', VisitType: 1 };
+
+    var addressGetting = false;
 
     $scope.getGeoAddress = function () {
+        console.log('地址获取中...');
+        if (addressGetting)
+            return;
+        addressGetting = true;
         try {
             $scope.EditVisit.Address = '正在获取...';
             navigator.geolocation.getCurrentPosition(function (position) {
@@ -301,7 +242,10 @@ function SalesVisitCreateCtrl($scope, $rootScope, $routeParams, $http, $location
                     if (data.status == 'OK') {
                         $scope.EditVisit.Address = data.result.formatted_address;
                     }
-                }, function () { });
+                    addressGetting = false;
+                }, function () {
+                    addressGetting = false;
+                });
                 /*
                 var element = document.getElementById('geolocation');
                 element.innerHTML = 'Latitude: ' + position.coords.latitude + '<br />' +
@@ -313,10 +257,12 @@ function SalesVisitCreateCtrl($scope, $rootScope, $routeParams, $http, $location
                                     'Speed: ' + position.coords.speed + '<br />' +
                                     'Timestamp: ' + position.timestamp + '<br />';*/
             }, function () {
+                addressGetting = false;
                 $scope.EditVisit.Address = '地址获取失败，点击重新获取';
             });
         }
         catch (e) {
+            addressGetting = false;
             $scope.EditVisit.Address = '地址获取失败，点击重新获取';
         }
     };
@@ -331,31 +277,65 @@ function SalesVisitCreateCtrl($scope, $rootScope, $routeParams, $http, $location
             $scope.EditVisit.IdmarketingChance = $rootScope.CurrentChance.IdmarketingChance;
             salesmodel.addvisit($scope.EditVisit, function (data) {
                 console.log(data);
+                alert('拜访成功！');
+                $rootScope.$broadcast('EventUpdateVisitDetail');
+                $timeout(function () {
+                    angular.loadSection('sales-visit-detail');
+                }, 2000);
+
             }, function () { });
+        }
+    };
+
+    $scope.createCancel = function () {
+        if ($rootScope.SaleOperationFrom == 'visit') {
+            angular.loadSection('sales-visit-detail');
+        }
+        else if ($rootScope.SaleOperationFrom == 'visitlist') {
+            angular.loadSection('sales-visit-list');
+        }
+        else {
+            angular.loadSection('sales-chance-detail');
         }
     };
 };
 
-function SalesVisitDetailCtrl($scope, $routeParams, $http, $location) {
+function SalesVisitDetailCtrl($scope, $rootScope, $routeParams, $http, $location, salesmodel) {
     var chance;
     $("#visitDetailBox").hide();
     var emptyVisit = { VisitType: 1, Address: '' };
 
+    $scope.loadVisitDetailList = function (pageindex) {
+        salesmodel.getvisitdetaillist($rootScope.CurrentChance.IdmarketingChance, pageindex, 50, function (data) {
+            if (data.Error) {
+                alert(data.ErrorMessage);
+            }
+            $scope.hasMoreRecords = data.hasMore;
+
+            $scope.visittimes = data.Items || [];
+            console.log($scope.visittimes);
+        });
+    };
+
+    $scope.visitToVisit = function (ev) {
+        ev.stopPropagation();
+        ev.preventDefault();
+        angular.loadSection('sales-visit-create');
+        $rootScope.SaleOperationFrom = 'visit';
+        $rootScope.$broadcast('EventVisitCreate');
+    }
+
+    $scope.$on('EventUpdateVisitDetail', function (event, from) {
+        $scope.loadVisitDetailList(-1);
+        //加载机会数据
+    });
+
+    $scope.loadVisitDetailList(-1);
+
     $scope.VisitNewNum = '初';
     var $ratePanle,$addressPanle,$prisePanle;
 
-    $scope.$on('EventVisitDetail', function (event, from) {
-        console.log(from)
-        chance = from.chance || from.cvisit;
-        $scope.chance = chance;
-        $scope.NewRate = $scope.chance.Rate;
-        $scope.chanceVisitDetail();
-        $scope.visitFormReset();
-        $("#visitDetailBox").show();
-        $("#visitDetailBox").animate({ width: "800px" }, 500);
 
-		//加载机会数据
-    });
 
     $scope.visitFormReset = function () {
         $scope.EditVisit = angular.copy(emptyVisit);
@@ -448,6 +428,7 @@ function SalesVisitDetailCtrl($scope, $routeParams, $http, $location) {
 	    $('#visitLocationSelectModal').modal('show');
 	};
 	
+    /*
 	utilities.registeriframelistener("visitlocation",function(){
 	    $('#visitLocationSelectModal').modal('hide');
 	    var lat = arguments[0], lng = arguments[1], address = arguments[2];
@@ -456,7 +437,7 @@ function SalesVisitDetailCtrl($scope, $routeParams, $http, $location) {
 	        $scope.visit_lng = lng;
 	        $scope.EditVisit.Address = address;
 	    });
-	});
+	});*/
 
 	$scope.parseAddress = function (address) {
 	    address = address || '';

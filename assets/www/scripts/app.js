@@ -31,7 +31,7 @@
          }]);
      }
 
-     makeEventLisenerDirective('ngRefresh', 'pullRefresh');
+     makeEventLisenerDirective('ngRefresh', 'pullrefresh');
      makeEventLisenerDirective('ngTouch', 'touch');
      makeEventLisenerDirective('ngTap', 'tap');
  }])
@@ -85,6 +85,10 @@ function MainCtrl($scope, $rootScope, $http, $filter, usermodel, respicmodel, $e
     });
     updataUser();
 
+    $scope.loadSection = function (name) {
+        angular.loadSection(name);
+    }
+
     $scope.showMenu = function (ev) {
         angular.showMenu(ev, Lungo.Element.Cache.section);
     };
@@ -109,6 +113,7 @@ function MainCtrl($scope, $rootScope, $http, $filter, usermodel, respicmodel, $e
         //angular.section(sectionId);
         if (sectionId != Lungo.Element.Cache.section.attr('id'))
         {
+            angular.changeMenuContent(target);
             var current = Lungo.Element.Cache.section;
             current.removeClass(Lungo.Constants.CLASS.SHOW);
             target.addClass(Lungo.Constants.CLASS.SHOW);

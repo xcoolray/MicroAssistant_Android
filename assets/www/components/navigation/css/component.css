@@ -15,12 +15,12 @@ html, body, .perspective {
 }
 
 .perspective {
-	background: #aaa;
+	background: #1ABC9C !important;
 	position: relative;
 }
 
 .container {
-	background: #fff;
+	background: #1ABC9C !important;
 	min-height: 100%;
 	position: relative;
 	outline: 1px solid rgba(0,0,0,0);
@@ -35,7 +35,7 @@ html, body, .perspective {
 	width: 100%;
 	height: 0px;
 	opacity: 0;
-	background: rgba(0,0,0,0.2);
+	/*background: rgba(0,0,0,0.2);*/
 	/* the transition delay of the height needs to be synced with the container transition time */
 	-webkit-transition: opacity 0.4s, height 0s 0.4s;
 	transition: opacity 0.4s, height 0s 0.4s;
@@ -160,14 +160,18 @@ html, body, .perspective {
 	backface-visibility: hidden;
 }
 
-.icon-news::before { content: "\e600" }
-.icon-home::before { content: "\e601" }
-.icon-image::before { content: "\e602" }
-.icon-upload::before { content: "\e603" }
-.icon-star::before { content: "\e604" }
-.icon-mail::before { content: "\e605" }
-.icon-lock::before { content: "\e606" }
-.icon-chart-pie::before { content: "\e607" }
+            .icon-news::before { content: "\e600" }
+            .icon-home::before { content: "\e080" }
+            .icon-image::before { content: "\e602" }
+            .icon-upload::before { content: "\e603" }
+            .icon-star::before { content: "\e604" }
+            .icon-mail::before { content: "\e605" }
+            .icon-product::before {content:"\e050"}
+            .icon-sales::before {content:"\e07c"}
+            .icon-custom::before {content:"\e033"}
+            .icon-fina::before {content:"\e05e"}
+            .icon-lock::before { content: "\e606" }
+            .icon-chart-pie::before { content: "\e607" }
 
 /* Individual Effects */
 

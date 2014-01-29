@@ -1,7 +1,7 @@
 ﻿<section id="sales-chance-detail" data-transition="slide" ng-controller="SalesChanceDetailCtrl">
     <header data-title="销售详情" class="extended">
         <nav>
-            <a href="#"  data-view-section="sales-chance-list" data-icon="chevron-left"></a>
+            <a href="javascript:void(0)"  ng-tap="loadSection('sales-chance-list')" data-icon="chevron-left"></a>
         </nav>
     </header>
 
@@ -34,7 +34,7 @@
     </article>
     <footer>
         <nav>
-            <a href="#"  ng-tap="chanceToVisit($event)" class="footerbtn"  data-view-section="sales-visit-create" data-async="partials/sales/visitcreate.html">
+            <a href="javascript:void(0)"  ng-tap="chanceToVisit($event)" class="footerbtn">
                 <span>主动拜访</span>
             </a>
         </nav>

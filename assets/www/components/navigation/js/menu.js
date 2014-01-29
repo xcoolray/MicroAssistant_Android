@@ -102,12 +102,8 @@
         angular.changeMenuContent = function (target) {
             if (target) {
                 var old = contentWrapper.children();
-                var oldclass = old.attr('class');
-                var newclass = target.attr('class');
                 perspectiveWrapper.append(old);
                 contentWrapper.append(target);
-                old.attr('class', newclass);
-                target.attr('class', oldclass);
             }
         }
 

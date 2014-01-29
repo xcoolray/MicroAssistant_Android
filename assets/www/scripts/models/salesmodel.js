@@ -54,7 +54,7 @@ angular.module('models.sales').factory('salesmodel', ['$serverModels', function 
                 vid: visit.IdmarketingVisit,
                 visitType: visit.VisitType,
                 remark: visit.Remark,
-                amount: visit || 0,
+                amount: visit.Amount || 0,
                 address: visit.Address
             },
             lock: false,
@@ -62,6 +62,25 @@ angular.module('models.sales').factory('salesmodel', ['$serverModels', function 
             ecb: ecb
         });
     };
+
+    salesmodel.getvisitdetaillist = function (cid, pageindex, pagesize, scb, ecb) {
+        return salesmodel.querylist({
+            url: $sitecore.urls["salesChanceVisitsList"],
+            data: { cid: cid, pageIndex: pageindex, pageSize: pagesize },
+            lock: true,
+            refresh: pageindex < 0,
+            getMore: pageindex > 0,
+            cacheKey: 'sales_visitdetail_list',
+            pagesize: pagesize,
+            pfn: function (response, parsecb) {
+                var list = response.data.Data.Vlist.Items;
+                response.data.Data = { Items: list };
+                parsecb(response.data);
+            },
+            scb: scb,
+            ecb: ecb
+        });
+    }
 
     return salesmodel;
 }]);
