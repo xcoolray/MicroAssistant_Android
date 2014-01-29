@@ -1,5 +1,5 @@
 ﻿<!doctype html>
-<html ng-app="microassistant" id="htmlroot">
+<html ng-app="microassistant">
 <head>
     <meta charset="utf-8">
     <title>微企助手</title>
@@ -18,35 +18,35 @@
     <link rel="stylesheet" href="components/lungo/lungo.icon.css">
     <!-- App Stylesheet -->
     <link href="css/app.css" rel="stylesheet" />
-	<link rel="stylesheet" type="text/css" href="components/PerspectivePageViewNavigation/css/component.css" />
-     <!--<link href="components/PerspectivePageViewNavigation/css/lungo.css" rel="stylesheet" />
-    <link href="components/PerspectivePageViewNavigation/css/lungo.theme.css" rel="stylesheet" />
-		csstransforms3d-shiv-cssclasses-prefixed-teststyles-testprop-testallprops-prefixes-domprefixes-load --> 
-		<script src="components/PerspectivePageViewNavigation/js/modernizr.custom.25376.js"></script>
+	<link rel="stylesheet" type="text/css" href="components/navigation/css/component.css" />
+    <link href="components/navigation/css/lungo.css" rel="stylesheet" />
+    <link href="components/navigation/css/lungo.theme.css" rel="stylesheet" />
+	<!--csstransforms3d-shiv-cssclasses-prefixed-teststyles-testprop-testallprops-prefixes-domprefixes-load --> 
+	<script src="components/navigation/js/modernizr.custom.25376.js"></script>
 </head>
 
-<body ng-controller="MainCtrl" id="contentWraper">
-    <!--<div id="contentWraper" class="container"></div>-->
-<section id="account-login" data-transition="slide">
-    <article class="active splash"  ng-controller="UserLoginMainCtrl">
-        <img src="img/logo1.png" class="logo"/>
-        <div class="form">
-            <form name="UserLoginForm" id="form" ng-class="showerror?'showerror':''">
-            <fieldset class="radius-top" data-icon="user">
-                <input type="email" name="emial" ng-model="User.email" ng-required="true"  placeholder="请输入邮箱" id="txt-signup-name" value="">
-            </fieldset>
-            <fieldset class="radius-bottom shadow" data-icon="lock">
-                <input type="password" name="pwd" ng-model="User.pwd" maxlength="18" ng-required="true"  placeholder="请输入密码" id="txt-signup-password" value="">
-            </fieldset>
-            <br/>
-            <button class="anchor" data-icon="lock" data-icon="user" href="javascript:void(0)" ng-click="UserLogin()" data-label="登陆"></button>
-            <button data-view-section="account-register" data-async="partials/account/register.html" class="secondary anchor" data-icon="home" data-label="员工注册"></button>
-            <button data-view-section="account-entregister" data-async="partials/account/ent-register.html" class="secondary anchor" data-icon="home" data-label="企业注册"></button>
-            </form>
-        </div>
-        <span class="copyright text thin">Copyright (C) 2013-2014 - <span class="text bold">微企助手</span></span>
-    </article>
-</section>
+<body ng-controller="MainCtrl">
+    <div id="contentWraper" class="container"></div>
+    <section id="account-login" data-transition="slide">
+        <article class="active splash"  ng-controller="UserLoginMainCtrl">
+            <img src="img/logo1.png" class="logo"/>
+            <div class="form">
+                <form name="UserLoginForm" id="form" ng-class="showerror?'showerror':''">
+                <fieldset class="radius-top" data-icon="user">
+                    <input type="email" name="emial" ng-model="User.email" ng-required="true"  placeholder="请输入邮箱" id="txt-signup-name" value="">
+                </fieldset>
+                <fieldset class="radius-bottom shadow" data-icon="lock">
+                    <input type="password" name="pwd" ng-model="User.pwd" maxlength="18" ng-required="true"  placeholder="请输入密码" id="txt-signup-password" value="">
+                </fieldset>
+                <br/>
+                <button class="anchor" data-icon="lock" data-icon="user" href="javascript:void(0)" ng-click="UserLogin()" data-label="登陆"></button>
+                <button data-view-section="account-register" data-async="partials/account/register.html" class="secondary anchor" data-icon="home" data-label="员工注册"></button>
+                <button data-view-section="account-entregister" data-async="partials/account/ent-register.html" class="secondary anchor" data-icon="home" data-label="企业注册"></button>
+                </form>
+            </div>
+            <span class="copyright text thin">Copyright (C) 2013-2014 - <span class="text bold">微企助手</span></span>
+        </article>
+    </section>
     <section id="main" data-transition="slide">
         <header>
             <nav>
@@ -72,11 +72,17 @@
             </div>
         </article>
     </section>
-
+            <nav class="outer-nav left vertical">
+				<a href="javascript:void(0)" class="icon-home" onclick="menuToSection('main')">主页</a>
+				<a href="javascript:void(0)" class="icon-product" onclick="menuToSection('product-list','partials/products/list.html')">产品管理</a>
+				<a href="javascript:void(0)" class="icon-sales" onclick="menuToSection('sales-list','partials/sales/list.html')">销售管理</a>
+				<a href="javascript:void(0)" class="icon-fina" onclick="menuToSection('finance-list','partials/finance/list.html')">财务管理</a>
+				<a href="javascript:void(0)" class="icon-custom" onclick="menuToSection('client-list','partials/client/list.html')">客户管理</a>
+			</nav>
     <!-- Lungo dependencies -->
     <!--<script src="components/jquery.js"></script>-->
     <script src="components/quojs/quo.js"></script>
-    <script src="components/lungo/lungo.debug.js"></script>
+    <script src="components/lungo/lungo.js"></script>
     <script src="components/lungo-fixed.js"></script>
     <script src="components/angular/angular.js"></script>
     <script src="components/angular/angular-touch.js"></script>
@@ -98,7 +104,7 @@
     <script src="scripts/finance/controllers.js"></script>
     <script src="scripts/client/controller.js"></script>
     <script src="scripts/app.js"></script>
-	<script src="components/PerspectivePageViewNavigation/js/menu2.js"></script>
+	<script src="components/navigation/js/menu.js"></script>
     <script type="text/javascript">
         (function () {
             var link = Lungo.dom('#tempSectionLink');
@@ -186,14 +192,5 @@
     <!--<script src="cordova.js"></script>
     <script src="http://192.168.1.7:8080/target/target-script-min.js#anonymous"></script>-->
 </body>
-    <div>
-            		<nav class="outer-nav left vertical display_none" id="navigation_menu" style="position:relative;z-index:999;">
-				<a href="javascript:void(0)" class="icon-home" onclick="menuToSection('main')">主页</a>
-				<a href="javascript:void(0)" class="icon-product" onclick="menuToSection('product-list','partials/products/list.html')">产品管理</a>
-				<a href="javascript:void(0)" class="icon-sales" onclick="menuToSection('sales-list','partials/sales/list.html')">销售管理</a>
-				<a href="javascript:void(0)" class="icon-fina" onclick="menuToSection('finance-list','partials/finance/list.html')">财务管理</a>
-				<a href="javascript:void(0)" class="icon-custom" onclick="menuToSection('client-list','partials/client/list.html')">客户管理</a>
-			</nav>
-    </div>
 </html>
 

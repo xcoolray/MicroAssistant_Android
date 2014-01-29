@@ -86,7 +86,7 @@ function MainCtrl($scope, $rootScope, $http, $filter, usermodel, respicmodel, $e
     updataUser();
 
     $scope.showMenu = function (ev) {
-        angular.showMenu(ev);
+        angular.showMenu(ev, Lungo.Element.Cache.section);
     };
 
     $scope.hideMenu = function (ev) {
