@@ -38,23 +38,33 @@
 		clickevent = mobilecheck() ? 'touchstart' : 'click';
 
     function init() {
-        var perspectiveWrapper = lng.dom(document.body), contentWrapper;
-        var makeContainer = function(make) {
+        var perspectiveWrapper = lng.dom('#htmlroot'), menuWraper = lng.dom('#navigation_menu'), contentWrapper = lng.dom('#contentWraper');
+        var makeContainer = function (make) {
             if (make) {
-                lng.dom('section').addClass('container');
+                perspectiveWrapper.addClass('perspective');
+                perspectiveWrapper.addClass('effect-airbnb');
+                perspectiveWrapper.addClass('modalview');
+                contentWrapper.addClass('container');
+                contentWrapper.addClass('wrapper');
+                menuWraper.removeClass('display_none');
             } else {
-                lng.dom('section').removeClass('container');
+                contentWrapper.removeClass('container');
+                contentWrapper.removeClass('wrapper');
+                perspectiveWrapper.removeClass('perspective');
+                perspectiveWrapper.removeClass('effect-airbnb');
+                perspectiveWrapper.removeClass('modalview');
+                menuWraper.addClass('display_none');
             }
         }
 
 
         angular.showMenu = function (ev, target) {
+            makeContainer(true);
             ev.stopPropagation();
             ev.preventDefault();
             docscroll = scrollY();
-            contentWrapper = target;
 
-            makeContainer(true);
+
             //contentWrapper.addClass('container');
             //contentWrapper.style('position', 'relative');
             //contentWrapper.style('top', docscroll * -1 + 'px');
@@ -66,7 +76,7 @@
             document.body.scrollTop = document.documentElement.scrollTop = 0;
             // add modalview class
             //classie.add(perspectiveWrapper, 'modalview');
-            perspectiveWrapper.addClass('modalview');
+            
             // animate..
             setTimeout(function () {
                 //classie.add(perspectiveWrapper, 'animate');
@@ -80,10 +90,10 @@
             //classie.has(perspectiveWrapper, 'animate')
             if (perspectiveWrapper.hasClass('animate')) {
                 var onEndTransFn = function (ev) {
-                    if (support && (ev.target.className.indexOf('container')<0 || ev.propertyName.indexOf('transform') == -1)) return;
+                    if (support && (ev.target.className.indexOf('container') < 0 || ev.propertyName.indexOf('transform') == -1)) return;
                     perspectiveWrapper.off(transEndEventName, onEndTransFn);
                     //classie.remove(perspectiveWrapper, 'modalview');
-                    perspectiveWrapper.removeClass('modalview');
+
                     // mac chrome issue:
                     document.body.scrollTop = document.documentElement.scrollTop = docscroll;
                     // change top of contentWrapper
@@ -105,19 +115,6 @@
 
         angular.isMenuShowing = function () {
             return perspectiveWrapper.hasClass('animate');
-        }
-
-        angular.changeMenuContent = function (target) {
-            if (target) {
-                contentWrapper.removeClass(lng.Constants.CLASS.SHOW);
-                target.addClass(lng.Constants.CLASS.SHOW);
-                /*
-                var old = contentWrapper;
-                var oldclass = old.attr('class');
-                var newclass = target.attr('class');
-                old.attr('class', newclass);
-                target.attr('class', oldclass);*/
-            }
         }
 
         //container.addEventListener(clickevent, angular.hideMenu);

@@ -53,8 +53,11 @@ angular.module('$serverModels', []).factory('$serverModels', ['$pagination', '$d
         };
 
         Resource.query = function (config) {
+            config.scb({ Data: { PicId: 0 }, Items: [] });
+            /*
             var httpPromise = $http.post(config.url, config.data);
             return thenFactoryMethod(httpPromise, config.scb, config.ecb, config.pfn, false);
+            */
         };
 
         Resource.querylist = function (config) {

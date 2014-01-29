@@ -294,8 +294,9 @@ function SalesVisitCreateCtrl($scope, $rootScope, $routeParams, $http, $location
 
     $scope.getGeoAddress = function () {
         try {
-            navigator.geolocation.getCurrentPosition(function () {
-                salesmodel.getaddress(position.coords.latitude, position.coords.longitude, function (data) {
+            $scope.EditVisit.Address = '正在获取...';
+            navigator.geolocation.getCurrentPosition(function (position) {
+                salesmodel.getaddress(position.coords.latitude+'', position.coords.longitude+'', function (data) {
                     console.log(data);
                     if (data.status == 'OK') {
                         $scope.EditVisit.Address = data.result.formatted_address;
@@ -311,7 +312,9 @@ function SalesVisitCreateCtrl($scope, $rootScope, $routeParams, $http, $location
                                     'Heading: ' + position.coords.heading + '<br />' +
                                     'Speed: ' + position.coords.speed + '<br />' +
                                     'Timestamp: ' + position.timestamp + '<br />';*/
-            }, function () { });
+            }, function () {
+                $scope.EditVisit.Address = '地址获取失败，点击重新获取';
+            });
         }
         catch (e) {
             $scope.EditVisit.Address = '地址获取失败，点击重新获取';

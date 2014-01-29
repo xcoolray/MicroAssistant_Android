@@ -137,3 +137,10 @@ body > section > [data-control="pull"] {
 .gray {
     color:#808080;
 }
+
+.display_none {
+    display:none;
+}
+.display_block {
+    display:block;
+}

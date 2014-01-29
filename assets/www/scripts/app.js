@@ -60,7 +60,7 @@
         return Lungo.Core.environment();;
     });
 
-function MainCtrl($scope, $rootScope, $http, $filter, usermodel, respicmodel) {
+function MainCtrl($scope, $rootScope, $http, $filter, usermodel, respicmodel, $environment) {
 
     var updataUser = function () {
         usermodel.loadCurrentUser(function (data) {
@@ -78,15 +78,15 @@ function MainCtrl($scope, $rootScope, $http, $filter, usermodel, respicmodel) {
         });
     }
 
+    $scope.env = angular.copy( $environment);
+
     $scope.$on('onLoginSuccess', function () {
         updataUser();
     });
     updataUser();
 
     $scope.showMenu = function (ev) {
-        if (angular.isMenuShowing())
-            return false;
-        angular.showMenu(ev, Lungo.Element.Cache.section);
+        angular.showMenu(ev);
     };
 
     $scope.hideMenu = function (ev) {
@@ -102,15 +102,19 @@ function MainCtrl($scope, $rootScope, $http, $filter, usermodel, respicmodel) {
                 Lungo.Resource.load(resource);
                 Lungo.Boot.Data.init("#" + sectionId);
                 target = Lungo.dom("#" + sectionId);
-                target.trigger('load');
+                //target.trigger('load');
             }
         }
         //Lungo.dom("#contentWraper").append(Lungo.dom("#" + sectionId));
         //angular.section(sectionId);
         if (sectionId != Lungo.Element.Cache.section.attr('id'))
         {
-            angular.changeMenuContent(Lungo.dom("#" + sectionId));
-            Lungo.Element.Cache.section = Lungo.dom("#" + sectionId);
+            var current = Lungo.Element.Cache.section;
+            current.removeClass(Lungo.Constants.CLASS.SHOW);
+            target.addClass(Lungo.Constants.CLASS.SHOW);
+
+            Lungo.Section.show(current, target);
+            Lungo.Router.step(sectionId);
 
             //Lungo.Element.Cache.section.removeClass(Lungo.Constants.CLASS.SHOW);
             //Lungo.dom("#" + sectionId).addClass(Lungo.Constants.CLASS.SHOW);
