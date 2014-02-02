@@ -82,5 +82,15 @@ angular.module('models.sales').factory('salesmodel', ['$serverModels', function 
         });
     }
 
+    salesmodel.getcontractdetail = function (cid, scb, ecb) {
+        return salesmodel.query({
+            url: $sitecore.urls["salesGetConractByContractNo"],
+            data: { contractNo: cid },
+            lock: false,
+            scb: scb,
+            ecb: ecb
+        });
+    }
+
     return salesmodel;
 }]);

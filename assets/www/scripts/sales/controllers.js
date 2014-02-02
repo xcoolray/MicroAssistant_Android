@@ -154,6 +154,52 @@ function SalesVisitMainCtrl($scope, $rootScope, $routeParams, $http, $location, 
     }
 }
 
+function SalesContractMainCtrl($scope, $rootScope, $routeParams, $http, $location, salesmodel) {
+    $scope.steps = "contract";
+    $scope.hasMoreRecords = false;
+
+    $scope.refreshList = function () {
+        $scope.loadCurrentStepList(-1);
+    }
+
+    $scope.showMoreRecords = function () {
+        $scope.loadCurrentStepList(1);
+    }
+    //显示列表内容
+    $scope.loadCurrentStepList = function (pageindex) {
+        console.log(pageindex)
+        salesmodel.getlist($scope.steps, pageindex, 10, function (data) {
+            if (data.Error) {
+                alert(data.ErrorMessage);
+            }
+            $scope.hasMoreRecords = data.hasMore;
+
+            $scope.contracts = data.Items || [];
+            console.log($scope.contracts);
+        });
+    };
+    $scope.loadCurrentStepList(0);
+
+    $scope.contractDetail = function (ev) {
+        console.log('contractDetail')
+        ev.stopPropagation();
+        ev.preventDefault();
+        $rootScope.CurrentContract = this.contract;
+        salesmodel.getcontractdetail(this.contract.ContractNo, function (data) {
+            if (data.Error) {
+                alert(data.ErrorMessage);
+            }
+            $rootScope.CurrentContract = data.Data;
+        }, function () { });
+        angular.loadSection('sales-contract-detail');
+        
+        $rootScope.$broadcast('EventUpdateContractDetail');
+        //ev.stopPropagation();
+        //ev.preventDefault();
+        // data-view-section="sales-visit-detail" data-async="partials/sales/visitdetail.html"
+    };
+}
+
 function SalesChanceDetailCtrl($scope, $rootScope, $routeParams, $http, $location, $filter, $timeout, salesmodel) {
     var fromscope, chance, selectdate;
     //$scope.chance = salesmodel.currentChance();

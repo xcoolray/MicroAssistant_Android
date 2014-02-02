@@ -134,6 +134,8 @@
             registerSection('sales-visit-create', 'sales-visit-create', 'partials/sales/visitcreate.html');
             registerSection('sales-visit-detail', 'sales-visit-detail', 'partials/sales/visitdetail.html');
             registerSection('sales-visit-list', 'sales-visit-list', 'partials/sales/visitlist.html');
+            registerSection('sales-contract-list', 'sales-contract-list', 'partials/sales/contractlist.html');
+            registerSection('sales-contract-detail', 'sales-contract-detail', 'partials/sales/contractdetail.html');
         })();
     </script>
     <script>
@@ -173,6 +175,9 @@
             },
             'load section#sales-visit-list': function (event) {
                 MicroAssistantApp.pull('section#sales-visit-list article');
+            },
+            'load section#sales-contract-list': function (event) {
+                MicroAssistantApp.pull('section#sales-contract-list article');
             }
         });
         /*
